@@ -4,14 +4,11 @@ import { Lexend, Limelight } from 'next/font/google';
 
 const limelight = Limelight({
   subsets: ['latin'],
-  display: 'swap',
   weight: '400'
 });
 
 const lexend = Lexend({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: '400'
+  subsets: ['latin']
 });
 
 
