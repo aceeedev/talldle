@@ -4,46 +4,40 @@ import { SortableTest } from './components/sortableTest';
 
 export default function Home() {
   return (
-    <div>
-      <SiteNavbar />
-
-      <br />
-
-      <section className="grid justify-center">
-        <div className="flex-1 text-right text-lg sm:text-2xl font-bold">
-          Daily #42
-        </div>
-      </section>
-
-      <br />
-
-      <section>
-        <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-xl">
-          <SortableTest />
-          <EmptyColumn />
-          <EmptyColumn />
-          <EmptyColumn />
-          <EmptyColumn />
-          <EmptyColumn />
-        </div>
-      </section>
-
-      <br />
-
-      <section>
-        <div className="grid justify-center">
-          <span className="mg-auto font-bold px-6 sm:px-10 py-1 sm:py-2 text-lg sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer">
+    <main>
+      <section className="flex flex-col grow h-[100svh]">
+        <section>
+          <SiteNavbar />
+          <div className="mt-2 sm:mt-4">
+            <div className="grid justify-center">
+              <div className="flex-1 text-right text-xl sm:text-3xl font-bold">
+                Daily #42
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="flex-1 flex flex-col justify-center">
+          <div className="my-2">
+            <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
+            <div>
+              <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-xl">
+                <SortableTest />
+                <EmptyColumn />
+                <EmptyColumn />
+                <EmptyColumn />
+                <EmptyColumn />
+                <EmptyColumn />
+              </div>
+            </div>
+            <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Shortest</span></div>
+          </div>
+        </section>
+        <section className="grid justify-center mb-[8vh] sm:mb-[5vh]">
+          <span className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer">
             Enter Guess
           </span>
-          {/* <div className="flex items-center justify-center w-[256px] h-[48px] border-2 border-talldle-red font-bold text-lg sm:text-2xl hover:bg-[var(--talldle-red)] hover:text-[var(--background)] hover:border-[var(--talldle-red)] hover:cursor-pointer hover:text-3xl duration-50">
-            Enter Guess
-          </div> */}
-          {/* <div className="flex items-center justify-center w-[256px] h-[48px] font-bold text-lg sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer hover:text-3xl duration-25">
-            Enter Guess
-          </div> */}
-        </div>
+        </section>
       </section>
-
-    </div>
+    </main>
   )
 }

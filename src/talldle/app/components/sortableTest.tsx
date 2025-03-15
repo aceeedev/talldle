@@ -26,7 +26,7 @@ export class SortableTest extends Component<{}, SortableTestState> {
         className="grid gap-0.5 sm:gap-1"
       >
           {this.state.list.map((item) => (
-            <div key={item.id} className="border-2 sm:border-4 border-[var(--accent)] overflow-clip">
+            <div key={item.id} className="border-2 sm:border-4 border-[var(--dark-accent)] overflow-clip">
               <img src={item.url} alt={item.name} className="object-cover "/>
             </div>
           ))}
