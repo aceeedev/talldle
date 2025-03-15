@@ -3,7 +3,7 @@
 :root {
   --background: #2D2D2D;  
   --talldle-red: #F00D1E;
-  --accent: rgb(255, 255, 255, 0.1);
+  --accent: #383838; /* rgb(255, 255, 255, 0.1) */
 }
 
 @theme inline {
