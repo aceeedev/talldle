@@ -8,6 +8,8 @@ import { useGameState } from "./useGameState"
 export default function Home() {
   const { gameState, guessOrder } = useGameState();
 
+  console.log(gameState)
+
   return (
     <main>
       <section className="flex flex-col grow min-h-[100svh]">
