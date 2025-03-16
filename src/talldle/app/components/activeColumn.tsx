@@ -1,9 +1,8 @@
 'use client';
 import { Component } from "react";
 import { Sortable, ReactSortable } from "react-sortablejs";
-import { FillerColumn } from "./fillerColumn"
 import { useState, useEffect } from 'react';
-import { Celeb } from "./../useGameState"
+import { Guess } from "./../useGameState"
 
 function addTooltips() {
   const elements = document.getElementsByClassName("tooltip")
@@ -25,7 +24,7 @@ function removeTooltips() {
   }
 }
 
-export function ActiveColumn({ order }: { order: Array<Celeb> }) {
+export function ActiveColumn({ order }: { order: Array<Guess> }) {
   const [list, setList] = useState(order);
 
   useEffect(() => {
@@ -45,9 +44,9 @@ export function ActiveColumn({ order }: { order: Array<Celeb> }) {
     >
       {list?.length > 0 ? (
         list.map((item) => (
-          <div key={item.ID} className="tooltip-container border-2 sm:border-4 border-[var(--dark-accent)] overflow-clip hover:cursor-pointer select-none">
-            <img src={item.Image} alt={item.Name} className="object-cover" />
-            <aside className="tooltip-active tooltip">{item.Name}</aside>
+          <div key={item.celebs[0].id} className="tooltip-container border-2 sm:border-4 border-[var(--dark-accent)] overflow-clip hover:cursor-pointer select-none">
+            <img src={item.celebs[0].imgUrl} alt={item.celebs[0].name} className="object-cover" />
+            <aside className="tooltip-active tooltip">{item.celebs[0].name}</aside>
           </div>
         ))
       ) : (

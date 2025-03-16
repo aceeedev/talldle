@@ -12,8 +12,8 @@ const numberCelebs: number = 7;
 
 // Interfaces:
 type GameState = {
-    initialOrder: Array<Celeb>;
-    guesses: Array<Array<Celeb>>;
+    currentGuess: Array<Guess>;
+    guesses: Array<Array<Guess>>;
     numGuesses: number;
     isGameOver: boolean;
 };
@@ -25,6 +25,18 @@ export type Celeb = {
     imgUrl: string,
     category: string,
     source: string
+};
+
+export type Guess = {
+    id: number,
+    celebs: Array<Celeb>,
+    color: GuessColor
+};
+
+export enum GuessColor {
+    Gray,
+    Yellow,
+    Green
 };
 
 type UseGameStateReturn = {
@@ -60,18 +72,24 @@ function getRandomElements<T>(arr: T[], count: number, seed: number): T[] {
 export function useGameState(): UseGameStateReturn {
     const [gameState, setGameState] = useState<GameState>(() => {
         return {
-            initialOrder: [],
-            trueOrder: [],
+            currentGuess: [],
             guesses: [],
             numGuesses: 0,
             isGameOver: false,
         };
     });
 
-    const guessOrder = useCallback((guess: Array<Celeb>) => {
+    const guessOrder = useCallback((celebGuess: Array<Celeb>) => {
+        let guess: Array<Guess> = [];
+
+        // TODO: iterate over guess (prob change celebGuess to Array<Guess> or even just check gameState.currentGuess) and see what colors should be what
+        for (let i = 0; i < celebGuess.length; i++) {
+
+        }
 
         setGameState((prev) => ({
             ...prev,
+            currentGuess: guess,
             guesses: [...prev.guesses, guess],
             numGuesses: prev.numGuesses + 1,
         }));
@@ -84,16 +102,26 @@ export function useGameState(): UseGameStateReturn {
                 let celebs = await getDailyCelebs();
 
                 // make sure the order by default isnt sorted
-                let i = 0;
-                while (!checkCorrectOrder(celebs)) {
-                    celebs = getRandomElements(celebs, celebs.length, i);
+                // let i = 0;
+                // while (!checkCorrectOrder(celebs)) {
+                //     celebs = getRandomElements(celebs, celebs.length, i);
 
-                    i++;
-                }
+                //     i++;
+                // }
+
+                // make the initial celebs order alphabetical
+                celebs.sort((a, b) => a.name.localeCompare(b.name));
+
+                // create initial guess order from select celebs
+                let startingOrder: Array<Guess> = celebs.map((celeb, index) => ({
+                    id: index,
+                    celebs: [celeb],
+                    color: GuessColor.Gray
+                }));
                 
                 setGameState(prev => ({
                     ...prev,
-                    initialOrder: celebs,
+                    currentGuess: startingOrder,
                 }));
             } catch (err) {
                 console.error("Failed to fetch celebs:", err);

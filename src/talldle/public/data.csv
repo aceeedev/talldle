@@ -1,4 +1,4 @@
-ID,Name,Height,Image,Category,Source
+id,name,height,imgUrl,category,source
 5,Mahatma Gandhi,163,https://www.celebheights.com/tr/m/mahatmagandhi.jpg,[Historical],[Celeb Heights]
 6,Joseph Stalin,168,https://www.celebheights.com/tr/j/josephstalin.jpg,"[Historical,Politics]",[Celeb Heights]
 7,Steve Jobs,183,https://www.celebheights.com/tr/s/stevejobs.jpg,"[Tech,Wealth]",[Celeb Heights]
