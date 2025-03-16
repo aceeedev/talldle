@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import { EmptyColumn } from './components/emptyColumn';
 import { SiteNavbar } from './components/siteNavbar';
-import { SortableTest } from './components/sortableTest';
+import { ActiveColumn } from './components/activeColumn';
 import { useGameState } from "./useGameState"
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
               <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-xl">
-                <SortableTest />
+                <ActiveColumn order={gameState.initialOrder}/>
                 <EmptyColumn />
                 <EmptyColumn />
                 <EmptyColumn />

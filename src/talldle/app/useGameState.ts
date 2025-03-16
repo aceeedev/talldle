@@ -18,7 +18,7 @@ type GameState = {
     isGameOver: boolean;
 };
 
-type Celeb = {
+export type Celeb = {
     id: string,
     name: string,
     height: number,
