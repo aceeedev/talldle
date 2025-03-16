@@ -18,7 +18,7 @@ export default function Home() {
           <div className="mt-2 sm:mt-4">
             <div className="grid justify-center">
               <div className="flex-1 text-right text-xl sm:text-3xl font-bold">
-                Daily #42
+                Daily #{gameState.dayIndex}
               </div>
             </div>
           </div>

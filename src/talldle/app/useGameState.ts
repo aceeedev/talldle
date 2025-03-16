@@ -12,6 +12,7 @@ const numberCelebs: number = 7;
 
 // Interfaces:
 type GameState = {
+    dayIndex: number,
     currentGuess: Array<Guess>;
     guesses: Array<Array<Guess>>;
     numGuesses: number;
@@ -72,6 +73,7 @@ function getRandomElements<T>(arr: T[], count: number, seed: number): T[] {
 export function useGameState(): UseGameStateReturn {
     const [gameState, setGameState] = useState<GameState>(() => {
         return {
+            dayIndex: 0,
             currentGuess: [],
             guesses: [],
             numGuesses: 0,
@@ -163,11 +165,17 @@ export function useGameState(): UseGameStateReturn {
                     // now that we have all the data in the csv, pick today's selection
 
                     // find date index
+                    // TODO: I think the logic here is broke?
                     const diffTime = Math.abs((new Date()).getTime() - dayZero.getTime());
                     const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
 
                     const dayIndex = diffDays;
                     const selectedCelebs = getRandomElements(results.data, numberCelebs, dayIndex);
+
+                    setGameState(prev => ({
+                        ...prev,
+                        dayIndex: dayIndex,
+                    }));
                 
                     resolve(selectedCelebs);                    
                 },
