@@ -8,7 +8,8 @@ NOTION_DATABASE_ID = os.getenv('NOTION_DATABASE_ID')
 
 
 class Entry:
-    def __init__(self, name, height, imageUrl, categories, sources):
+    def __init__(self, id, name, height, imageUrl, categories, sources):
+        self.id: int = id
         self.name: str = name
         self.height: int = height
         self.image_url: str = imageUrl
@@ -19,7 +20,7 @@ class Entry:
         return ", ".join(map(str, self.toList()))
 
     def toList(self) -> list[str | int]:
-        return [self.name, self.height, self.image_url, self.categories, self.sources]
+        return [self.id, self.name, self.height, self.image_url, self.categories, self.sources]
 
 
 def get_notion_entries() -> list[Entry]:
@@ -47,17 +48,20 @@ def get_notion_entries() -> list[Entry]:
             for row in json['results']:
                 props = row['properties']
 
+                id = props['ID']['unique_id']['number']
                 name = props['Name']['title'][0]['plain_text']
                 height = props['Height (cm)']['number']
                 imageUrl = props['Image URL']['url']
                 categories = f"[{','.join(list(map(lambda x: x['name'], props['Tags']['multi_select'])))}]"
                 sources = f"[{','.join(list(map(lambda x: x['name'], props['Source']['multi_select'])))}]"
 
-                data.append(Entry(name, height, imageUrl, categories, sources))
+                data.append(Entry(id, name, height, imageUrl, categories, sources))
 
             if json['has_more']:
                 start_cursor = json['next_cursor']
             else:
                 not_done = False
+
+    data.sort(key=lambda x: x.id)
 
     return data

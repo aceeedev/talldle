@@ -1,8 +1,13 @@
+'use client'
+
 import { EmptyColumn } from './components/emptyColumn';
 import { SiteNavbar } from './components/siteNavbar';
 import { SortableTest } from './components/sortableTest';
+import { useGameState } from "./useGameState"
 
 export default function Home() {
+  const { gameState, guessOrder } = useGameState();
+
   return (
     <main>
       <section className="flex flex-col grow min-h-[100svh]">
