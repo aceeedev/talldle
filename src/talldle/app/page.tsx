@@ -5,7 +5,7 @@ import { SortableTest } from './components/sortableTest';
 export default function Home() {
   return (
     <main>
-      <section className="flex flex-col grow h-[100svh]">
+      <section className="flex flex-col grow min-h-[100svh]">
         <section>
           <SiteNavbar />
           <div className="mt-2 sm:mt-4">
