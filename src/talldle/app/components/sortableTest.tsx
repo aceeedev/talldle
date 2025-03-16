@@ -53,7 +53,7 @@ export class SortableTest extends Component<{}, SortableTestState> {
           {this.state.list.map((item) => (
             <div key={item.id} className="tooltip-container border-2 sm:border-4 border-[var(--dark-accent)] overflow-clip hover:cursor-pointer select-none">
               <img src={item.url} alt={item.name} className="object-cover "/>
-              <aside className="tooltip-selector tooltip">{item.name}</aside>
+              <aside className="tooltip-active tooltip">{item.name}</aside>
             </div>
           ))}
       </ReactSortable>
