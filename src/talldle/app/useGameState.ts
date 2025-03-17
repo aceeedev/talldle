@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Papa, { ParseResult } from "papaparse"
 
 // Constants:
-const dayZero: Date = new Date(2025, 3, 16);
+const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
 
 const maxNumGuesses: number = 5;
 const numberCelebs: number = 7;
@@ -165,9 +165,8 @@ export function useGameState(): UseGameStateReturn {
                     // now that we have all the data in the csv, pick today's selection
 
                     // find date index
-                    // TODO: I think the logic here is broke?
                     const diffTime = Math.abs((new Date()).getTime() - dayZero.getTime());
-                    const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24));
+                    const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
 
                     const dayIndex = diffDays;
                     const selectedCelebs = getRandomElements(results.data, numberCelebs, dayIndex);
