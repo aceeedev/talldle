@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Papa, { ParseResult } from "papaparse"
+import { Sortable, Store } from "react-sortablejs";
 
 // Constants:
 const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
@@ -43,6 +44,7 @@ export enum GuessColor {
 type UseGameStateReturn = {
     gameState: GameState;
     guessOrder: (guess: Array<Celeb>) => void;
+    setCurrentGuess: (newState: Guess[], sortable: Sortable | null, store: Store) => void
 };
 
 
@@ -94,6 +96,13 @@ export function useGameState(): UseGameStateReturn {
             currentGuess: guess,
             guesses: [...prev.guesses, guess],
             numGuesses: prev.numGuesses + 1,
+        }));
+    }, []);
+
+    const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
+        setGameState(prev => ({
+            ...prev,
+            currentGuess: newState,
         }));
     }, []);
 
@@ -183,5 +192,5 @@ export function useGameState(): UseGameStateReturn {
         })
     };
 
-    return { gameState, guessOrder };
+    return { gameState, guessOrder, setCurrentGuess };
 }

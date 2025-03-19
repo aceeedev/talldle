@@ -6,7 +6,7 @@ import { ActiveColumn } from './components/activeColumn';
 import { useGameState } from "./useGameState"
 
 export default function Home() {
-  const { gameState, guessOrder } = useGameState();
+  const { gameState, guessOrder, setCurrentGuess } = useGameState();
 
   console.log(gameState)
 
@@ -28,7 +28,7 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
               <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-xl">
-                <ActiveColumn order={gameState.currentGuess}/>
+                <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
                 <EmptyColumn />
                 <EmptyColumn />
                 <EmptyColumn />
