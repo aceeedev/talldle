@@ -45,7 +45,7 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
         ))
       ) : (
         [...Array(7)].map((_, i) => (
-          <div className="no-drag border-2 sm:border-4 bg-[var(--dark-accent)] border-[var(--dark-accent)] opacity-35 aspect-square"></div>
+          <div key={i} className="no-drag border-2 sm:border-4 bg-[var(--dark-accent)] border-[var(--dark-accent)] opacity-35 aspect-square"></div>
         ))
       )}
     </ReactSortable>
