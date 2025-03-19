@@ -7,7 +7,7 @@ import { Sortable, Store } from "react-sortablejs";
 // Constants:
 const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
 
-const maxNumGuesses: number = 5;
+export const maxNumGuesses: number = 5;
 const numberCelebs: number = 7;
 
 

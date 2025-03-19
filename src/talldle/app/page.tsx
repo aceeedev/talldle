@@ -4,7 +4,7 @@ import { EmptyColumn } from './components/emptyColumn';
 import { SiteNavbar } from './components/siteNavbar';
 import { ActiveColumn } from './components/activeColumn';
 import { HistoryColumn } from './components/historyColumn';
-import { useGameState } from "./useGameState"
+import { useGameState, maxNumGuesses } from "./useGameState"
 
 export default function Home() {
   const { gameState, submitGuess, setCurrentGuess } = useGameState();
@@ -29,12 +29,20 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
               <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-lg">
-                <HistoryColumn order={gameState.currentGuess}/>
-                <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
-                <EmptyColumn />
-                <EmptyColumn />
-                <EmptyColumn />
-                <EmptyColumn />
+                {/* display a history for every past guess */}
+                {gameState.guesses.map((guess, index) => (
+                  <HistoryColumn order={guess} key={index}/>
+                ))}
+
+                {/* allow player to guess if they have guesses left*/}
+                {gameState.numGuesses != maxNumGuesses && 
+                  <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
+                }
+
+                {/* for remaining guesses display an empty column */}
+                {[...Array(maxNumGuesses - gameState.numGuesses).keys()].map(key => 
+                  <EmptyColumn key={key}/>)
+                }
               </div>
             </div>
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Shortest</span></div>
