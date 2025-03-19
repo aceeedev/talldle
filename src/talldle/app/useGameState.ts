@@ -32,7 +32,8 @@ export type Celeb = {
 export type Guess = {
     id: number,
     celebs: Array<Celeb>,
-    color: GuessColor
+    color: GuessColor,
+    chosen: false // React Sortable parameter
 };
 
 export enum GuessColor {
@@ -43,7 +44,7 @@ export enum GuessColor {
 
 type UseGameStateReturn = {
     gameState: GameState;
-    guessOrder: (guess: Array<Celeb>) => void;
+    submitGuess: () => void;
     setCurrentGuess: (newState: Guess[], sortable: Sortable | null, store: Store) => void
 };
 
@@ -83,28 +84,19 @@ export function useGameState(): UseGameStateReturn {
         };
     });
 
-    const guessOrder = useCallback((celebGuess: Array<Celeb>) => {
-        let guess: Array<Guess> = [];
+    const submitGuess = useCallback(() => {
 
         // TODO: iterate over guess (prob change celebGuess to Array<Guess> or even just check gameState.currentGuess) and see what colors should be what
-        for (let i = 0; i < celebGuess.length; i++) {
-
-        }
-
-        setGameState((prev) => ({
-            ...prev,
-            currentGuess: guess,
-            guesses: [...prev.guesses, guess],
-            numGuesses: prev.numGuesses + 1,
-        }));
-    }, []);
+        console.log("GAMESTATE", gameState)
+        console.log("CURRENT GUESS", gameState.currentGuess)
+    }, [gameState]);
 
     const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
         setGameState(prev => ({
             ...prev,
             currentGuess: newState,
         }));
-    }, []);
+    }, [gameState]);
 
     // run on mount
     useEffect(() => {
@@ -127,7 +119,8 @@ export function useGameState(): UseGameStateReturn {
                 let startingOrder: Array<Guess> = celebs.map((celeb, index) => ({
                     id: index,
                     celebs: [celeb],
-                    color: GuessColor.Gray
+                    color: GuessColor.Gray,
+                    chosen: false
                 }));
                 
                 setGameState(prev => ({
@@ -192,5 +185,5 @@ export function useGameState(): UseGameStateReturn {
         })
     };
 
-    return { gameState, guessOrder, setCurrentGuess };
+    return { gameState, submitGuess, setCurrentGuess };
 }

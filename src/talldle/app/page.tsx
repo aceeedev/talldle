@@ -6,9 +6,9 @@ import { ActiveColumn } from './components/activeColumn';
 import { useGameState } from "./useGameState"
 
 export default function Home() {
-  const { gameState, guessOrder, setCurrentGuess } = useGameState();
+  const { gameState, submitGuess, setCurrentGuess } = useGameState();
 
-  console.log(gameState)
+  // console.log(gameState)
 
   return (
     <main>
@@ -40,7 +40,7 @@ export default function Home() {
           </div>
         </section>
         <section className="grid justify-center mb-[8vh]">
-          <span className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer hover:scale-[1.05] duration-100">
+          <span onClick={submitGuess} className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer hover:scale-[1.05] duration-100">
             Enter Guess
           </span>
         </section>
