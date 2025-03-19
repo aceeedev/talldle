@@ -27,7 +27,7 @@ export default function Home() {
           <div className="my-2">
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
-              <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-xl">
+              <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-lg">
                 <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
                 <EmptyColumn />
                 <EmptyColumn />
@@ -39,8 +39,8 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Shortest</span></div>
           </div>
         </section>
-        <section className="grid justify-center mb-[8vh] sm:mb-[5vh]">
-          <span className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer">
+        <section className="grid justify-center mb-[8vh]">
+          <span className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer hover:scale-[1.05] duration-100">
             Enter Guess
           </span>
         </section>

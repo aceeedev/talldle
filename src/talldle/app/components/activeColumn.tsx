@@ -12,7 +12,7 @@ function addTooltips() {
         el.classList.add("tooltip-active");
       }
     }
-  }, 100)
+  }, 150)
 }
 
 function removeTooltips() {
