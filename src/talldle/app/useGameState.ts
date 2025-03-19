@@ -108,18 +108,48 @@ export function useGameState(): UseGameStateReturn {
     });
 
     const submitGuess = useCallback(() => {
-
         // TODO: iterate over guess (prob change celebGuess to Array<Guess> or even just check gameState.currentGuess) and see what colors should be what
-        console.log("GAMESTATE", gameState)
         console.log("CURRENT GUESS", gameState.currentGuess)
-    }, [gameState]);
+
+        const lastGuess: Array<Guess> = []
+        
+
+        // TODO: just use a double for loop lol
+        // gameState.currentGuess.forEach((guess, guessIndex) => {
+        //     guess.celebs.forEach((celeb, celebIndex) => {
+        //         // if the celeb is in the correct place -> green!
+        //         if (gameState.trueHeightOrder[guessIndex + celebIndex] === celeb.height) {
+        //             lastGuess.push({
+        //                 id: guessIndex + celebIndex,
+        //                 celebs: [celeb],
+        //                 color: GuessColor.Green,
+        //                 chosen: false
+        //             });
+        //         }
+
+        //         // if the celeb is 
+        //         while (gameState.celebAdjacency.get(celeb.id).includes(gameState.currentGuess[guessIndex].celebs[celebIndex + 1].id)) {
+
+        //         }
+
+        //         return guess;
+        //     });
+        // });
+
+        setGameState(prev => ({
+            ...prev,
+            guesses: [...prev.guesses, lastGuess],
+        }));
+
+
+    }, [gameState.currentGuess, gameState.trueHeightOrder, gameState.celebAdjacency]);
 
     const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
         setGameState(prev => ({
             ...prev,
             currentGuess: newState,
         }));
-    }, [gameState]);
+    }, []);
 
     // run on mount
     useEffect(() => {
@@ -182,10 +212,6 @@ export function useGameState(): UseGameStateReturn {
                         }
                     }
                 }
-
-                console.log(celebAdjacency);
-
-                console.log(celebs);
                 
                 setGameState(prev => ({
                     ...prev,
