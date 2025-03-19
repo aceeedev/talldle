@@ -3,6 +3,7 @@
 import { EmptyColumn } from './components/emptyColumn';
 import { SiteNavbar } from './components/siteNavbar';
 import { ActiveColumn } from './components/activeColumn';
+import { HistoryColumn } from './components/historyColumn';
 import { useGameState } from "./useGameState"
 
 export default function Home() {
@@ -28,8 +29,8 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
               <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-lg">
+                <HistoryColumn order={gameState.currentGuess}/>
                 <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
-                <EmptyColumn />
                 <EmptyColumn />
                 <EmptyColumn />
                 <EmptyColumn />
