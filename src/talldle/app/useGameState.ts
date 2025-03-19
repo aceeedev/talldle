@@ -18,6 +18,8 @@ type GameState = {
     guesses: Array<Array<Guess>>;
     numGuesses: number;
     isGameOver: boolean;
+    trueHeightOrder: Array<number>;
+    celebAdjacency: DefaultDictType<Array<string>>
 };
 
 export type Celeb = {
@@ -42,6 +44,12 @@ export enum GuessColor {
     Green
 };
 
+type DefaultDictType<T> = {
+    get(key: string): T;
+    dict: Record<string, T>;
+  };
+
+
 type UseGameStateReturn = {
     gameState: GameState;
     submitGuess: () => void;
@@ -56,6 +64,19 @@ function seededRandom(seed: number): () => number {
         return seed / 233280;
     };
 }
+
+function defaultDict<T>(factory: () => T): DefaultDictType<T> {
+    const dict: Record<string, T> = {};
+    return {
+      get(key: string): T {
+        if (!(key in dict)) {
+          dict[key] = factory();
+        }
+        return dict[key];
+      },
+      dict
+    };
+  }
 
 function getRandomElements<T>(arr: T[], count: number, seed: number): T[] {
     const random = seededRandom(seed);
@@ -81,6 +102,8 @@ export function useGameState(): UseGameStateReturn {
             guesses: [],
             numGuesses: 0,
             isGameOver: false,
+            trueHeightOrder: [],
+            celebAdjacency: defaultDict(() => [] as string[]),
         };
     });
 
@@ -122,10 +145,53 @@ export function useGameState(): UseGameStateReturn {
                     color: GuessColor.Gray,
                     chosen: false
                 }));
+
+                // find true height order (for checking guesses)
+                celebs.sort((a, b) => a.height - b.height);
+                let trueHeightOrder: Array<number> = celebs.map((celeb) => celeb.height);
+
+                // find adjacent celebs (for checking guesses)
+                const celebAdjacency = defaultDict(() => [] as string[]); // a map from celeb ID (string) to array of adjacent celeb IDs (strings)
+
+                for (let i = 0; i < celebs.length; i++) {
+                    const currentCeleb = celebs[i];
+
+                    // check left side
+                    for (let j = i - 1; i > 0 && j >= 0; j--) {
+                        const celebToCheck = celebs[j];
+
+                        // add celeb next to current celeb
+                        celebAdjacency.get(currentCeleb.id).push(celebToCheck.id);
+                        
+                        // stop adding celebrities if the next celeb is not the same height as the current celeb or if the next celeb and next next celeb is not the same height
+                        if (currentCeleb.height !== celebToCheck.height && (j - 1 >= 0 && celebs[j - 1].height !== celebToCheck.height)) {
+                            break;
+                        }
+                    }
+
+                    // check right side
+                    for (let j = i + 1; j < celebs.length; j++) {
+                        const celebToCheck = celebs[j];
+
+                        // add celeb next to current celeb
+                        celebAdjacency.get(currentCeleb.id).push(celebToCheck.id);
+
+                        // stop adding celebrities if the next celeb is not the same height as the current celeb or if the next celeb and next next celeb is not the same height
+                        if (currentCeleb.height !== celebToCheck.height && (j + 1 < celebs.length && celebs[j + 1].height !== celebToCheck.height)) {
+                            break;
+                        }
+                    }
+                }
+
+                console.log(celebAdjacency);
+
+                console.log(celebs);
                 
                 setGameState(prev => ({
                     ...prev,
                     currentGuess: startingOrder,
+                    trueHeightOrder: trueHeightOrder,
+                    celebAdjacency: celebAdjacency,
                 }));
             } catch (err) {
                 console.error("Failed to fetch celebs:", err);
