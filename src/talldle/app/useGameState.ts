@@ -108,40 +108,57 @@ export function useGameState(): UseGameStateReturn {
     });
 
     const submitGuess = useCallback(() => {
-        // TODO: iterate over guess (prob change celebGuess to Array<Guess> or even just check gameState.currentGuess) and see what colors should be what
-        console.log("CURRENT GUESS", gameState.currentGuess)
-
-        const lastGuess: Array<Guess> = []
+        // TODO: debug/fix commented code? (or rewrite but this approach isnt bad)
+        const guessToAdd: Array<Guess> = gameState.currentGuess; // set to current guess just for demo purposes but should be []
+        // let guessId = 0;
         
+        // const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
+        // let i = 0;
+        // while (i < guessCelebsFlattened.length) {
+        //     const currentCeleb = guessCelebsFlattened[i];
 
-        // TODO: just use a double for loop lol
-        // gameState.currentGuess.forEach((guess, guessIndex) => {
-        //     guess.celebs.forEach((celeb, celebIndex) => {
-        //         // if the celeb is in the correct place -> green!
-        //         if (gameState.trueHeightOrder[guessIndex + celebIndex] === celeb.height) {
-        //             lastGuess.push({
-        //                 id: guessIndex + celebIndex,
-        //                 celebs: [celeb],
-        //                 color: GuessColor.Green,
-        //                 chosen: false
-        //             });
+        //     // if celeb is in the correct place -> green guess
+        //     if (gameState.trueHeightOrder[i] === currentCeleb.height) {
+        //         guessToAdd.push({
+        //             id: guessId++,
+        //             celebs: [currentCeleb],
+        //             color: GuessColor.Green,
+        //             chosen: false
+        //         });
+        //     } else {
+        //         const celebsToAddToGuess: Array<Celeb> = [currentCeleb];
+            
+        //         for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
+        //             const celebToCheck = guessCelebsFlattened[j];
+
+        //             // if celeb is adjacent
+        //             if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
+        //                 celebsToAddToGuess.push(celebToCheck)
+        //             } else {
+        //                 // move up i to j
+        //                 i = j - 1;
+
+        //                 break;
+        //             }
         //         }
 
-        //         // if the celeb is 
-        //         while (gameState.celebAdjacency.get(celeb.id).includes(gameState.currentGuess[guessIndex].celebs[celebIndex + 1].id)) {
+        //         guessToAdd.push({
+        //             id: guessId++,
+        //             celebs: celebsToAddToGuess,
+        //             color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
+        //             chosen: false
+        //         });
+        //     } 
 
-        //         }
+        //     i++;
+        // }
 
-        //         return guess;
-        //     });
-        // });
+        // console.log(guessToAdd);
 
         setGameState(prev => ({
             ...prev,
-            guesses: [...prev.guesses, lastGuess],
+            guesses: [...prev.guesses, guessToAdd],
         }));
-
-
     }, [gameState.currentGuess, gameState.trueHeightOrder, gameState.celebAdjacency]);
 
     const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
