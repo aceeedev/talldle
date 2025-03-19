@@ -7,7 +7,7 @@ import { Sortable, Store } from "react-sortablejs";
 // Constants:
 const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
 
-export const maxNumGuesses: number = 5;
+export const maxNumGuesses: number = 6;
 const numberCelebs: number = 7;
 
 
@@ -108,58 +108,67 @@ export function useGameState(): UseGameStateReturn {
     });
 
     const submitGuess = useCallback(() => {
-        // TODO: debug/fix commented code? (or rewrite but this approach isnt bad)
-        const guessToAdd: Array<Guess> = gameState.currentGuess; // set to current guess just for demo purposes but should be []
-        // let guessId = 0;
+        if (gameState.isGameOver) return;
+
+        const guessToAdd: Array<Guess> = [];
+        let guessId = 0;
         
-        // const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
-        // let i = 0;
-        // while (i < guessCelebsFlattened.length) {
-        //     const currentCeleb = guessCelebsFlattened[i];
+        const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
+        let i = 0;
+        while (i < guessCelebsFlattened.length) {
+            const currentCeleb = guessCelebsFlattened[i];
 
-        //     // if celeb is in the correct place -> green guess
-        //     if (gameState.trueHeightOrder[i] === currentCeleb.height) {
-        //         guessToAdd.push({
-        //             id: guessId++,
-        //             celebs: [currentCeleb],
-        //             color: GuessColor.Green,
-        //             chosen: false
-        //         });
-        //     } else {
-        //         const celebsToAddToGuess: Array<Celeb> = [currentCeleb];
+            // if celeb is in the correct place -> green guess
+            if (gameState.trueHeightOrder[i] === currentCeleb.height) {
+                guessToAdd.push({
+                    id: guessId++,
+                    celebs: [currentCeleb],
+                    color: GuessColor.Green,
+                    chosen: false
+                });
+            } else {
+                const celebsToAddToGuess: Array<Celeb> = [currentCeleb];
             
-        //         for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
-        //             const celebToCheck = guessCelebsFlattened[j];
+                for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
+                    const celebToCheck = guessCelebsFlattened[j];
 
-        //             // if celeb is adjacent
-        //             if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
-        //                 celebsToAddToGuess.push(celebToCheck)
-        //             } else {
-        //                 // move up i to j
-        //                 i = j - 1;
+                    // if celeb is adjacent
+                    if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
+                        celebsToAddToGuess.push(celebToCheck)
+                    } else {
+                        // move up i to j
+                        i = j - 1;
 
-        //                 break;
-        //             }
-        //         }
+                        break;
+                    }
+                }
 
-        //         guessToAdd.push({
-        //             id: guessId++,
-        //             celebs: celebsToAddToGuess,
-        //             color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
-        //             chosen: false
-        //         });
-        //     } 
+                guessToAdd.push({
+                    id: guessId++,
+                    celebs: celebsToAddToGuess,
+                    color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
+                    chosen: false
+                });
+            } 
 
-        //     i++;
-        // }
+            i++;
+        }
 
-        // console.log(guessToAdd);
+        console.log(guessToAdd);
+
+        // see if game should end
+        if (gameState.numGuesses + 1 >= maxNumGuesses) {
+            setGameState((prev) => ({ ...prev, isGameOver: true }));
+            console.log('ended!');
+        }
 
         setGameState(prev => ({
             ...prev,
             guesses: [...prev.guesses, guessToAdd],
+            numGuesses: prev.numGuesses + 1
         }));
-    }, [gameState.currentGuess, gameState.trueHeightOrder, gameState.celebAdjacency]);
+
+    }, [gameState]);
 
     const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
         setGameState(prev => ({
@@ -244,13 +253,6 @@ export function useGameState(): UseGameStateReturn {
         fetchCelebs();
 
     }, []);
-
-    // watch guess count changes
-    useEffect(() => {
-        if (gameState.numGuesses >= maxNumGuesses) {
-            setGameState((prev) => ({ ...prev, isGameOver: true }));
-        }
-    }, [gameState.numGuesses]);
 
 
     const checkCorrectOrder = (celebsToCheck: Celeb[]): boolean => {

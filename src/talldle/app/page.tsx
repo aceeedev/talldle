@@ -35,13 +35,14 @@ export default function Home() {
                 ))}
 
                 {/* allow player to guess if they have guesses left*/}
-                {gameState.numGuesses != maxNumGuesses && 
+                {!gameState.isGameOver && 
                   <ActiveColumn order={gameState.currentGuess} setCurrentGuess={setCurrentGuess}/>
                 }
 
                 {/* for remaining guesses display an empty column */}
-                {[...Array(maxNumGuesses - gameState.numGuesses).keys()].map(key => 
-                  <EmptyColumn key={key}/>)
+                {!gameState.isGameOver && [...Array(maxNumGuesses - gameState.numGuesses - 1).keys()].map(key => 
+                  <EmptyColumn key={key}/>
+                )
                 }
               </div>
             </div>
