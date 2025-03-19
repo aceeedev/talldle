@@ -1,6 +1,7 @@
 'use client';
 import { Sortable, Store, ReactSortable } from "react-sortablejs";
 import { Guess, GuessColor } from "./../useGameState"
+import { RowDiv } from "./rowDiv";
 
 function addTooltips() {
   const elements = document.getElementsByClassName("tooltip")
@@ -32,23 +33,24 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
       setList={setCurrentGuess}
       onChoose={removeTooltips}
       onUnchoose={addTooltips}
+      onMove={(e) => e.related.classList.contains('no-drag') ? false : true}
       className="grid grid-rows-7 gap-0.5 sm:gap-1"
     >
       {order?.length > 0 ? (
         order.map((item) => ( item.color == GuessColor.Gray || item.color == GuessColor.Green ? (
-          <div key={item.id} className={`${item.color == GuessColor.Green ? 'no-drag border-green-500' : 'border-[var(--dark-accent)]'} tooltip-container border-2 sm:border-4 overflow-clip aspect-square hover:cursor-pointer`}>
+          <div key={item.id} className={`${item.color == GuessColor.Green ? 'no-drag border-green-500' : 'border-[var(--dark-accent)]'} row-span-1 tooltip-container border-2 sm:border-4 overflow-clip hover:cursor-pointer`}>
             <img src={item.celebs[0].imgUrl} alt={item.celebs[0].name} className="object-cover" />
             <aside className="tooltip-active tooltip">{item.celebs[0].name}</aside>
           </div>
         ) : (
-          <div key={item.id} className={`rows-span${item.celebs.length} flex flex-col gap-0.5 sm:gap-1 tooltip-container border-2 sm:border-4 border-yellow-300 bg-black overflow-clip hover:cursor-pointer`}>
+          <RowDiv rows={item.celebs.length} key={item.id}>
             {item.celebs.map((celeb) => (
-              <div className="aspect-square">
+              <div className="tooltip-container">
                 <img src={celeb.imgUrl} alt={celeb.name} className="object-cover" />
                 <aside className="tooltip-active tooltip">{celeb.name}</aside>
               </div>
             ))}
-          </div>
+          </RowDiv>
         )))
       ) : (
         [...Array(7)].map((_, i) => (
