@@ -128,9 +128,23 @@ export function useGameState(): UseGameStateReturn {
                 });
             } else {
                 const celebsToAddToGuess: Array<Celeb> = [currentCeleb];
-            
+
                 for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
                     const celebToCheck = guessCelebsFlattened[j];
+
+                    // if this celeb is in the correct place
+                    if (gameState.trueHeightOrder[j] === celebToCheck.height) {
+                        guessToAdd.push({
+                            id: guessId++,
+                            celebs: [celebToCheck],
+                            color: GuessColor.Green,
+                            chosen: false
+                        });
+
+                        i = j - 1;
+
+                        break;
+                    }
 
                     // if celeb is adjacent
                     if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
@@ -164,6 +178,7 @@ export function useGameState(): UseGameStateReturn {
 
         setGameState(prev => ({
             ...prev,
+            currentGuess: guessToAdd,
             guesses: [...prev.guesses, guessToAdd],
             numGuesses: prev.numGuesses + 1
         }));
@@ -202,8 +217,8 @@ export function useGameState(): UseGameStateReturn {
                     chosen: false
                 }));
 
-                // find true height order (for checking guesses)
-                celebs.sort((a, b) => a.height - b.height);
+                // find true height order (for checking guesses), note that order is descending
+                celebs.sort((a, b) => b.height - a.height );
                 let trueHeightOrder: Array<number> = celebs.map((celeb) => celeb.height);
 
                 // find adjacent celebs (for checking guesses)
@@ -212,18 +227,18 @@ export function useGameState(): UseGameStateReturn {
                 for (let i = 0; i < celebs.length; i++) {
                     const currentCeleb = celebs[i];
 
-                    // check left side
-                    for (let j = i - 1; i > 0 && j >= 0; j--) {
-                        const celebToCheck = celebs[j];
+                    // // check left side
+                    // for (let j = i - 1; i > 0 && j >= 0; j--) {
+                    //     const celebToCheck = celebs[j];
 
-                        // add celeb next to current celeb
-                        celebAdjacency.get(currentCeleb.id).push(celebToCheck.id);
+                    //     // add celeb next to current celeb
+                    //     celebAdjacency.get(currentCeleb.id).push(celebToCheck.id);
                         
-                        // stop adding celebrities if the next celeb is not the same height as the current celeb or if the next celeb and next next celeb is not the same height
-                        if (currentCeleb.height !== celebToCheck.height && (j - 1 >= 0 && celebs[j - 1].height !== celebToCheck.height)) {
-                            break;
-                        }
-                    }
+                    //     // stop adding celebrities if the next celeb is not the same height as the current celeb or if the next celeb and next next celeb is not the same height
+                    //     if (currentCeleb.height !== celebToCheck.height && (j - 1 >= 0 && celebs[j - 1].height !== celebToCheck.height)) {
+                    //         break;
+                    //     }
+                    // }
 
                     // check right side
                     for (let j = i + 1; j < celebs.length; j++) {
@@ -238,6 +253,10 @@ export function useGameState(): UseGameStateReturn {
                         }
                     }
                 }
+
+                console.log(celebs);
+                console.log(trueHeightOrder);
+                console.log(celebAdjacency);
                 
                 setGameState(prev => ({
                     ...prev,
