@@ -117,7 +117,7 @@ export function useGameState(): UseGameStateReturn {
         const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
         let i = 0;
         while (i < guessCelebsFlattened.length) {
-            const currentCeleb = guessCelebsFlattened[i];
+            let currentCeleb = guessCelebsFlattened[i];
 
             // if celeb is in the correct place -> green guess
             if (gameState.trueHeightOrder[i] === currentCeleb.height) {
@@ -136,7 +136,7 @@ export function useGameState(): UseGameStateReturn {
                     const celebToCheck = guessCelebsFlattened[j];
 
                     // if celeb is adjacent and we are not at the end of the list
-                    if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id) && j != guessCelebsFlattened.length -1) {
+                    if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
 
                         // first check if this celeb is actually just in the correct place
                         if (gameState.trueHeightOrder[j] === celebToCheck.height) {
@@ -154,8 +154,15 @@ export function useGameState(): UseGameStateReturn {
 
                             break;
                         }
+
                         
-                        celebsToAddToGuess.push(celebToCheck)
+                        celebsToAddToGuess.push(celebToCheck);
+
+                        if (j >= guessCelebsFlattened.length - 1) {
+                            i = j;
+                        }
+
+                        currentCeleb = celebToCheck
                     } else {
                         // move up i to j
                         i = j - 1;
@@ -230,19 +237,6 @@ export function useGameState(): UseGameStateReturn {
 
                 for (let i = 0; i < celebs.length; i++) {
                     const currentCeleb = celebs[i];
-
-                    // // check left side
-                    // for (let j = i - 1; i > 0 && j >= 0; j--) {
-                    //     const celebToCheck = celebs[j];
-
-                    //     // add celeb next to current celeb
-                    //     celebAdjacency.get(currentCeleb.id).push(celebToCheck.id);
-                        
-                    //     // stop adding celebrities if the next celeb is not the same height as the current celeb or if the next celeb and next next celeb is not the same height
-                    //     if (currentCeleb.height !== celebToCheck.height && (j - 1 >= 0 && celebs[j - 1].height !== celebToCheck.height)) {
-                    //         break;
-                    //     }
-                    // }
 
                     // check right side
                     for (let j = i + 1; j < celebs.length; j++) {
