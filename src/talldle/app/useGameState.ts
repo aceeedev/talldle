@@ -108,7 +108,7 @@ export function useGameState(): UseGameStateReturn {
     });
 
     const submitGuess = useCallback(() => {
-        if (gameState.isGameOver) return;
+        if (gameState.isGameOver || gameState.currentGuess.length === 0) return;
 
         const guessToAdd: Array<Guess> = []; // the new list of colored/grouped guesses to add to the gameState.guesses
         let guessId = 0; // for giving each guess a unique ID

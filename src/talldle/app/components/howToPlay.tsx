@@ -1,3 +1,5 @@
+import { maxNumGuesses } from "./../useGameState"
+
 export function hideHowToPlay() {
   document.getElementById("how-to-play")?.classList.remove("visible")
   document.getElementById("how-to-play")?.classList.add("invisible")
@@ -19,7 +21,7 @@ export function HowToPlay() {
           </svg>
           </div>
         <h1 className="text-2xl sm:text-4xl font-bold underline">How to Play</h1>
-        <h2 className="text-lg">Sort the famous people by height with 6 attempts.</h2>
+        <h2 className="text-lg">Sort the famous people by height with {maxNumGuesses} attempts.</h2>
         <br />
         <ul className="list-disc list-inside">
           <li><span className="text-green-300 underline">Green:</span> correct placement.</li>
