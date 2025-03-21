@@ -117,7 +117,6 @@ export function useGameState(): UseGameStateReturn {
         const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
         let i = 0;
         while (i < guessCelebsFlattened.length) {
-            console.log(i);
             const currentCeleb = guessCelebsFlattened[i];
 
             // if celeb is in the correct place -> green guess
@@ -135,7 +134,6 @@ export function useGameState(): UseGameStateReturn {
 
                 for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
                     const celebToCheck = guessCelebsFlattened[j];
-                    console.log("j", j)
 
                     // if celeb is adjacent and we are not at the end of the list
                     if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id) && j != guessCelebsFlattened.length -1) {
@@ -176,8 +174,6 @@ export function useGameState(): UseGameStateReturn {
 
             i++;
         }
-
-        console.log(guessToAdd);
 
         // see if game should end
         if (numCorrect == numberCelebs || gameState.numGuesses + 1 >= maxNumGuesses) {
@@ -261,10 +257,6 @@ export function useGameState(): UseGameStateReturn {
                         }
                     }
                 }
-
-                console.log(celebs);
-                console.log(trueHeightOrder);
-                console.log(celebAdjacency);
                 
                 setGameState(prev => ({
                     ...prev,
