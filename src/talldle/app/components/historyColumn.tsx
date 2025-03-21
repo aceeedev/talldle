@@ -4,7 +4,7 @@ import { RowDiv } from "./rowDiv"
 
 export function HistoryColumn({ order }: { order: Array<Guess> }) {  
   return (
-    <div className="grid grid-rows-7 gap-0.5 sm:gap-1 opacity-70">
+    <div className="grid grid-rows-7 gap-0.5 sm:gap-1 ">
       {order?.length > 0 ? (
         order.map((item) => ( item.color == GuessColor.Gray || item.color == GuessColor.Green ? (
           <div key={item.celebs[0].id} className={`${item.color == GuessColor.Green ? 'no-drag border-green-500' : 'border-[var(--dark-accent)]'} row-span-1 border-2 sm:border-4 overflow-clip hover:cursor-pointer`}>
@@ -13,7 +13,7 @@ export function HistoryColumn({ order }: { order: Array<Guess> }) {
         ) : (
           <RowDiv rows={item.celebs.length} key={item.id}>
             {item.celebs.map((celeb) => (
-              <div key={celeb.id}>
+              <div key={celeb.id} className="border-2 sm:border-4 border-yellow-300">
                 <img src={celeb.imgUrl} alt={celeb.name} className="object-cover" />
               </div>
             ))}
