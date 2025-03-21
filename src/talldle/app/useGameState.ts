@@ -110,12 +110,14 @@ export function useGameState(): UseGameStateReturn {
     const submitGuess = useCallback(() => {
         if (gameState.isGameOver) return;
 
-        const guessToAdd: Array<Guess> = [];
-        let guessId = 0;
+        const guessToAdd: Array<Guess> = []; // the new list of colored/grouped guesses to add to the gameState.guesses
+        let guessId = 0; // for giving each guess a unique ID
+        let numCorrect = 0; // to check if the user has won
         
         const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
         let i = 0;
         while (i < guessCelebsFlattened.length) {
+            console.log(i);
             const currentCeleb = guessCelebsFlattened[i];
 
             // if celeb is in the correct place -> green guess
@@ -126,28 +128,35 @@ export function useGameState(): UseGameStateReturn {
                     color: GuessColor.Green,
                     chosen: false
                 });
+
+                numCorrect++;
             } else {
                 const celebsToAddToGuess: Array<Celeb> = [currentCeleb];
 
                 for (let j = i + 1; j < guessCelebsFlattened.length; j++) {
                     const celebToCheck = guessCelebsFlattened[j];
+                    console.log("j", j)
 
-                    // if this celeb is in the correct place
-                    if (gameState.trueHeightOrder[j] === celebToCheck.height) {
-                        guessToAdd.push({
-                            id: guessId++,
-                            celebs: [celebToCheck],
-                            color: GuessColor.Green,
-                            chosen: false
-                        });
+                    // if celeb is adjacent and we are not at the end of the list
+                    if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id) && j != guessCelebsFlattened.length -1) {
 
-                        i = j - 1;
+                        // first check if this celeb is actually just in the correct place
+                        if (gameState.trueHeightOrder[j] === celebToCheck.height) {
+                            guessToAdd.push({
+                                id: guessId++,
+                                celebs: [celebToCheck],
+                                color: GuessColor.Green,
+                                chosen: false
+                            });
 
-                        break;
-                    }
+                            numCorrect++;
 
-                    // if celeb is adjacent
-                    if (gameState.celebAdjacency.get(currentCeleb.id).includes(celebToCheck.id)) {
+                            // move up i to j
+                            i = j - 1;
+
+                            break;
+                        }
+                        
                         celebsToAddToGuess.push(celebToCheck)
                     } else {
                         // move up i to j
@@ -171,9 +180,8 @@ export function useGameState(): UseGameStateReturn {
         console.log(guessToAdd);
 
         // see if game should end
-        if (gameState.numGuesses + 1 >= maxNumGuesses) {
+        if (numCorrect == numberCelebs || gameState.numGuesses + 1 >= maxNumGuesses) {
             setGameState((prev) => ({ ...prev, isGameOver: true }));
-            console.log('ended!');
         }
 
         setGameState(prev => ({
