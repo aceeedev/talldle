@@ -5,6 +5,7 @@ import { SiteNavbar } from './components/siteNavbar';
 import { ActiveColumn } from './components/activeColumn';
 import { HistoryColumn } from './components/historyColumn';
 import { useGameState, maxNumGuesses } from "./useGameState"
+import { HowToPlay } from './components/howToPlay';
 
 export default function Home() {
   const { gameState, submitGuess, setCurrentGuess } = useGameState();
@@ -55,6 +56,7 @@ export default function Home() {
           </span>
         </section>
       </section>
+      <HowToPlay />
     </main>
   )
 }
