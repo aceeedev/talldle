@@ -15,7 +15,7 @@ export function HowToPlay() {
     <div onClick={hideHowToPlay} id="how-to-play" className="invisible fixed top-0 flex flex-col justify-center w-screen h-screen bg-[#00000050] hover:cursor-pointer z-1">
       <div onClick={(e) => e.stopPropagation()} className="relative m-auto bg-black p-8 sm:p-12 text-gray-100 hover:cursor-default" >
         <div onClick={hideHowToPlay} className="absolute top-2 sm:top-4 right-2 sm:right-4 w-12 sm:w-14 rounded-full p-2 hover:cursor-pointer hover:bg-[var(--dark-accent)]">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none">
             <line x1="5" y1="5" x2="19" y2="19" />
             <line x1="19" y1="5" x2="5" y2="19" />
           </svg>
