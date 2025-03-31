@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export function RowDiv ({ rows, children} : { rows: number, children : ReactNode}) {  
   
-  const myClasses = "flex flex-col gap-1.5 sm:gap-3 border-2 sm:border-4 border-yellow-300 bg-[var(--dark-accent)] overflow-clip hover:cursor-pointer"
+  const myClasses = "flex flex-col gap-1.5 sm:gap-3 border-3 sm:border-4 border-yellow-400 bg-yellow-400 overflow-clip hover:cursor-pointer"
 
   if (rows == 2) {
     return (<div className={`row-span-2 ${myClasses}`}>
