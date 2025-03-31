@@ -116,6 +116,7 @@ export function useGameState(): UseGameStateReturn {
         
         const guessCelebsFlattened: Array<Celeb> = gameState.currentGuess.flatMap(guess => guess.celebs);
         let i = 0;
+        let alreadyPushed = false;
         while (i < guessCelebsFlattened.length) {
             let currentCeleb = guessCelebsFlattened[i];
 
@@ -142,6 +143,15 @@ export function useGameState(): UseGameStateReturn {
                         if (gameState.trueHeightOrder[j] === celebToCheck.height) {
                             guessToAdd.push({
                                 id: guessId++,
+                                celebs: celebsToAddToGuess,
+                                color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
+                                chosen: false
+                            });
+
+                            alreadyPushed = true;
+
+                            guessToAdd.push({
+                                id: guessId++,
                                 celebs: [celebToCheck],
                                 color: GuessColor.Green,
                                 chosen: false
@@ -150,14 +160,14 @@ export function useGameState(): UseGameStateReturn {
                             numCorrect++;
 
                             // move up i to j
-                            i = j - 1;
+                            i = j;
 
                             break;
                         }
 
-                        
                         celebsToAddToGuess.push(celebToCheck);
 
+                        // edge case (prevents if yellow at the bottom duplicating)
                         if (j >= guessCelebsFlattened.length - 1) {
                             i = j;
                         }
@@ -171,12 +181,16 @@ export function useGameState(): UseGameStateReturn {
                     }
                 }
 
-                guessToAdd.push({
-                    id: guessId++,
-                    celebs: celebsToAddToGuess,
-                    color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
-                    chosen: false
-                });
+                if (!alreadyPushed) {
+                    guessToAdd.push({
+                        id: guessId++,
+                        celebs: celebsToAddToGuess,
+                        color: celebsToAddToGuess.length == 1 ? GuessColor.Gray : GuessColor.Yellow,
+                        chosen: false
+                    });
+                } else {
+                    alreadyPushed = false;
+                }
             } 
 
             i++;
