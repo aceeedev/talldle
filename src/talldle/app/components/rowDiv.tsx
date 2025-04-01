@@ -2,30 +2,31 @@ import { ReactNode } from 'react';
 
 export function RowDiv ({ rows, children} : { rows: number, children : ReactNode}) {  
   
-  const myClasses = "flex flex-col gap-1.5 sm:gap-3 border-3 sm:border-4 border-yellow-400 bg-yellow-400 overflow-clip hover:cursor-pointer"
+  const myClasses = "flex flex-col gap-0.5 sm:gap-1 overflow-clip hover:cursor-pointer"
+  const myStyle = {background: "linear-gradient(to right, transparent 45%, var(--color-yellow-400) 45%, var(--color-yellow-400) 55%, transparent 55%)"}
 
   if (rows == 2) {
-    return (<div className={`row-span-2 ${myClasses}`}>
+    return (<div className={`row-span-2 ${myClasses}`} style={myStyle}>
       {children}
     </div> )
   }
   if (rows == 3) {
-    return (<div className={`row-span-3 ${myClasses}`}>
+    return (<div className={`row-span-3 ${myClasses}`} style={myStyle}>
       {children}
     </div> )
   }
   if (rows == 4) {
-    return (<div className={`row-span-4 ${myClasses}`}>
+    return (<div className={`row-span-4 ${myClasses}`} style={myStyle}>
       {children}
     </div> )
   }
   if (rows == 5) {
-    return (<div className={`row-span-5 ${myClasses}`}>
+    return (<div className={`row-span-5 ${myClasses}`} style={myStyle}>
       {children}
     </div> )
   }
   if (rows == 6) {
-    return (<div className={`row-span-6 ${myClasses}`}>
+    return (<div className={`row-span-6 ${myClasses}`} style={myStyle}>
       {children}
     </div> )
   }

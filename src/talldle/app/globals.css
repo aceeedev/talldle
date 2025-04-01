@@ -18,8 +18,12 @@
   }
 } */
 
-.glow {
-  text-shadow: 2 2 12px rgba(255, 0, 0, 0.25);
+.title-glow {
+  text-shadow: 2 2 12px rgba(255, 0, 0, 0.15);
+}
+
+.column-glow {
+  box-shadow: 0 0 12px var(--color-neutral-600);
 }
 
 .text-border {

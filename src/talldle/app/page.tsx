@@ -29,7 +29,7 @@ export default function Home() {
           <div className="my-2">
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
             <div>
-              <div className="grid grid-cols-6 justify-center m-auto gap-0.5 sm:gap-1 w-[96vw] max-w-lg">
+              <div className="grid grid-cols-6 justify-center m-auto gap-1 sm:gap-2 w-[98vw] max-w-xl">
                 {/* display a history for every past guess */}
                 {gameState.guesses.map((guess, index) => (
                   <HistoryColumn order={guess} key={index}/>
@@ -50,8 +50,8 @@ export default function Home() {
             <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Shortest</span></div>
           </div>
         </section>
-        <section className="grid justify-center mb-[8vh]">
-          <span onClick={submitGuess} className="mg-auto font-bold px-8 sm:px-12  py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] glow hover:cursor-pointer hover:scale-[1.05] duration-100">
+        <section className="grid justify-center mb-[5vh]">
+          <span onClick={submitGuess} className="mg-auto font-bold px-8 sm:px-12 py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer hover:scale-[1.05] duration-100">
             Enter Guess
           </span>
         </section>

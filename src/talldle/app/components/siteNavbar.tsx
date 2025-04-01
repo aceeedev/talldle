@@ -33,7 +33,7 @@ export function SiteNavbar() {
           Sort famous people from shortest to tallest!
         </div>
 
-        <div className="flex-1 text-right title text-3xl sm:text-4xl glow">
+        <div className="flex-1 text-right title text-3xl sm:text-4xl title-glow">
           <a href="."><span>Tall</span><span className="text-border">dle</span></a>
         </div>
       </div>
