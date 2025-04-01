@@ -18,7 +18,8 @@ export function CreditsCard() {
             <line x1="19" y1="5" x2="5" y2="19" />
           </svg>
         </div>
-        <div className="text-gray-200">
+        
+        <div className="text-neutral-200">
           <h1 className="text-2xl sm:text-4xl font-bold underline">Credits</h1>
           <br />
           <p>Inspired by <i>Wordle</i>, created by Josh Wardle, <i>Talldle</i> is made by <b>Andrew Collins</b> and <b>Riley Wong</b>.</p>

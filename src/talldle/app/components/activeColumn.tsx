@@ -28,12 +28,12 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
     <ReactSortable
       animation={100}
       // chosenClass="dragging"
-      filter=".no-drag"
+      // filter=".no-drag"
       list={order}
       setList={setCurrentGuess}
       onChoose={removeTooltips}
       onUnchoose={addTooltips}
-      onMove={(e) => e.related.classList.contains('no-drag') ? false : true}
+      // onMove={(e) => e.related.classList.contains('no-drag') ? false : true}
       className="grid grid-rows-7 gap-0.5 sm:gap-1"
     >
       {order?.length > 0 ? (
@@ -45,7 +45,7 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
         ) : (
           <RowDiv rows={item.celebs.length} key={item.id}>
             {item.celebs.map((celeb) => (
-              <div key={celeb.id} className="tooltip-container border-4 sm:border-6 border-yellow-400 ">
+              <div key={celeb.id} className="tooltip-container border-4 sm:border-6 border-yellow-400">
                 <img src={celeb.imgUrl} alt={celeb.name} className="object-cover" />
                 <aside className="tooltip-active tooltip">{celeb.name}</aside>
               </div>

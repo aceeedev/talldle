@@ -23,7 +23,7 @@
 }
 
 .column-glow {
-  box-shadow: 0 0 12px var(--color-neutral-600);
+  box-shadow: 0 0 16px var(--color-neutral-600);
 }
 
 .text-border {

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 export function RowDiv ({ rows, children} : { rows: number, children : ReactNode}) {  
   
-  const myClasses = "flex flex-col gap-0.5 sm:gap-1 overflow-clip hover:cursor-pointer"
+  const myClasses = "flex flex-col gap-0.5 sm:gap-1 overflow-clip hover:cursor-pointer column-glow"
   const myStyle = {background: "linear-gradient(to right, transparent 45%, var(--color-yellow-400) 45%, var(--color-yellow-400) 55%, transparent 55%)"}
 
   if (rows == 2) {

@@ -19,17 +19,16 @@ export function EndGameCard({ trueHeightOrder }: { trueHeightOrder: Array<number
           </svg>
         </div>
 
-        <div className="flex justify-center"><h1 className="text-2xl sm:text-4xl font-bold">🎉 You Won!! 🎉</h1></div>
-       
-        {trueHeightOrder.map((height, i) => (
-          <div key={i}>
-            <span >{height}cm / {Math.round(height*3.2808) / 100}ft</span>
-            <br />
-          </div>
-        ))}
-
-        <div className="flex justify-center"><span className="text-lg sm:text-xl font-bold underline text-[var(--talldle-red)]">Share Results</span></div>
-        
+        <div className="text-neutral-200">
+          <div className="flex justify-center"><h1 className="text-2xl sm:text-4xl font-bold">🎉 You Won!! 🎉</h1></div>
+          {trueHeightOrder.map((height, i) => (
+            <div key={i}>
+              <span >{height}cm / {Math.round(height*3.2808) / 100}ft</span>
+              <br />
+            </div>
+          ))}
+          <div className="flex justify-center"><span className="text-lg sm:text-xl font-bold underline text-[var(--talldle-red)]">Share Results</span></div>
+        </div>
       </div>
     </div>
   );
