@@ -7,6 +7,7 @@ import { HistoryColumn } from './components/historyColumn';
 import { useGameState, maxNumGuesses } from "./useGameState"
 import { HowToPlayCard } from './components/howToPlayCard';
 import { EndGameCard, showEndGameCard} from './components/endGameCard';
+import { CreditsCard } from './components/creditsCard';
 
 export default function Home() {
   const { gameState, submitGuess, setCurrentGuess } = useGameState();
@@ -63,6 +64,7 @@ export default function Home() {
       {gameState.isGameOver &&
         <EndGameCard trueHeightOrder={gameState.trueHeightOrder}/>
       }
+      <CreditsCard />
 
     </main>
   )

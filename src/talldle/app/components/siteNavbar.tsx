@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MenuIcon, InfoIcon, NetworkIcon } from './icons';
 import { showHowToPlayCard } from "./howToPlayCard"
+import { showCreditsCard } from "./creditsCard"
 
 export function SiteNavbar() {
 
@@ -19,7 +20,7 @@ export function SiteNavbar() {
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Share</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Disclaimer</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showHowToPlayCard}>How To Play</li>
-                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Credits</li>
+                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showCreditsCard}>Credits</li>
                   </ul>
                 </div>
               )}
