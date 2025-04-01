@@ -5,7 +5,8 @@ import { SiteNavbar } from './components/siteNavbar';
 import { ActiveColumn } from './components/activeColumn';
 import { HistoryColumn } from './components/historyColumn';
 import { useGameState, maxNumGuesses } from "./useGameState"
-import { HowToPlay } from './components/howToPlay';
+import { HowToPlayCard } from './components/howToPlayCard';
+import { EndGameCard, showEndGameCard} from './components/endGameCard';
 
 export default function Home() {
   const { gameState, submitGuess, setCurrentGuess } = useGameState();
@@ -51,12 +52,18 @@ export default function Home() {
           </div>
         </section>
         <section className="grid justify-center mb-[5vh]">
-          <span onClick={submitGuess} className="mg-auto font-bold px-8 sm:px-12 py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer hover:scale-[1.05] duration-100">
+          <span onClick={() => !gameState.isGameOver ? submitGuess() : showEndGameCard()} className="mg-auto font-bold px-8 sm:px-12 py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer hover:scale-[1.05] duration-100">
             Enter Guess
           </span>
         </section>
       </section>
-      <HowToPlay />
+
+      {/* invisible cards until active */}
+      <HowToPlayCard />
+      {gameState.isGameOver &&
+        <EndGameCard trueHeightOrder={gameState.trueHeightOrder}/>
+      }
+
     </main>
   )
 }
