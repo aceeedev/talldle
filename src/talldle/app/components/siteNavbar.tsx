@@ -2,10 +2,16 @@ import { useState } from "react";
 import { MenuIcon, InfoIcon, NetworkIcon } from './icons';
 import { showHowToPlayCard } from "./howToPlayCard"
 import { showCreditsCard } from "./creditsCard"
+import { GameState } from '../useGameState'
+import { logShare } from '../firebase'
 
-export function SiteNavbar() {
+export function SiteNavbar({gameState}: {gameState: GameState}) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const shareOnClick = function() {
+    logShare(gameState.isGameOver);
+  };
 
   return (
     <section>
@@ -19,14 +25,15 @@ export function SiteNavbar() {
                   <ul className="py-1 text-gray-100">
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Share</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Disclaimer</li>
-                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showHowToPlayCard}>How To Play</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showCreditsCard}>Credits</li>
+                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showHowToPlayCard}>How To Play</li>
+                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={shareOnClick}>Share</li>
                   </ul>
                 </div>
               )}
             </div>
             <div onClick={showHowToPlayCard} className="my-auto w-[40px] sm:w-[48px] rounded-full p-2 hover:cursor-pointer hover:bg-[var(--dark-accent)]"><InfoIcon /></div>
-            <div className="my-auto w-[40px] sm:w-[48px] rounded-full p-2 hover:cursor-pointer hover:bg-[var(--dark-accent)]"><NetworkIcon /></div>
+            <div onClick={shareOnClick} className="my-auto w-[40px] sm:w-[48px] rounded-full p-2 hover:cursor-pointer hover:bg-[var(--dark-accent)]"><NetworkIcon /></div>
           </div>
         </div>
 

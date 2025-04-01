@@ -12,13 +12,11 @@ import { CreditsCard } from './components/creditsCard';
 export default function Home() {
   const { gameState, submitGuess, setCurrentGuess } = useGameState();
 
-  // console.log(gameState)
-
   return (
     <main>
       <section className="flex flex-col grow min-h-[100svh]">
         <section>
-          <SiteNavbar />
+          <SiteNavbar gameState={gameState}/>
           <div className="mt-2 sm:mt-4">
             <div className="grid justify-center">
               <div className="flex-1 text-right text-xl sm:text-3xl font-bold">

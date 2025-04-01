@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Papa, { ParseResult } from "papaparse"
 import { Sortable, Store } from "react-sortablejs";
+import { logScore } from './firebase'
 
 // Constants:
 const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
@@ -12,7 +13,7 @@ const numberCelebs: number = 7;
 
 
 // Interfaces:
-type GameState = {
+export type GameState = {
     dayIndex: number,
     currentGuess: Array<Guess>;
     guesses: Array<Array<Guess>>;
@@ -199,6 +200,8 @@ export function useGameState(): UseGameStateReturn {
         // see if game should end
         if (numCorrect == numberCelebs || gameState.numGuesses + 1 >= maxNumGuesses) {
             setGameState((prev) => ({ ...prev, isGameOver: true }));
+
+            logScore(gameState.guesses)
         }
 
         setGameState(prev => ({
