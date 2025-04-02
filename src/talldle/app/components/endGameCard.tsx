@@ -1,3 +1,7 @@
+import { GameState } from '../useGameState'
+import { showCopyAnnouncement } from './copyAnnouncement'
+import { logShare } from '../firebase'
+
 export function hideEndGameCard() {
   document.getElementById("end-game-info")?.classList.remove("visible")
   document.getElementById("end-game-info")?.classList.add("invisible")
@@ -8,7 +12,14 @@ export function showEndGameCard() {
   document.getElementById("end-game-info")?.classList.add("visible")
 }
 
-export function EndGameCard({ trueHeightOrder }: { trueHeightOrder: Array<number> }) {
+export function EndGameCard({ gameState, getShareResults } : { gameState: GameState, getShareResults: () => string }) {
+
+  const shareOnClick = function() {
+    navigator.clipboard?.writeText(getShareResults());
+    showCopyAnnouncement();
+    logShare(gameState.isGameOver);
+  };
+
   return (
     <div onClick={hideEndGameCard} id="end-game-info" className="visible fixed top-0 pt-14 sm:pt-0 sm:flex w-screen h-screen bg-[#00000050] hover:cursor-pointer z-1">
       <div onClick={(e) => e.stopPropagation()} className="relative m-auto bg-black p-8 sm:p-12 text-gray-100 max-w-2xl hover:cursor-default">
@@ -20,14 +31,21 @@ export function EndGameCard({ trueHeightOrder }: { trueHeightOrder: Array<number
         </div>
 
         <div className="text-neutral-200">
-          <div className="flex justify-center"><h1 className="text-2xl sm:text-4xl font-bold">🎉 You Won!! 🎉</h1></div>
-          {trueHeightOrder.map((height, i) => (
+          <div className="flex justify-center flex-col">
+            <h1 className="text-2xl sm:text-4xl font-bold m-auto">🎉 You Won!! 🎉</h1>
+            <span className="m-auto text-lg sm:text-xl">{gameState.guesses.length == 1 ?  `1 guess` : `${gameState.guesses.length} guesses`}</span>
+          </div>
+          <br />
+          {gameState.trueHeightOrder.map((height, i) => (
             <div key={i}>
-              <span >{height}cm / {Math.round(height*3.2808) / 100}ft</span>
+              <span>{Math.round(height*3.2808) / 100}ft ({height}cm)</span>
               <br />
             </div>
           ))}
-          <div className="flex justify-center"><span className="text-lg sm:text-xl font-bold underline text-[var(--talldle-red)]">Share Results</span></div>
+          <br />  
+          <div className="flex justify-center">
+            <span onClick={shareOnClick} className="text-lg sm:text-xl font-bold py-2 px-4 border-2 text-[var(--talldle-red)] hover:cursor-pointer hover:bg-[var(--talldle-red)] hover:text-black hover:border-[var(--talldle-red)]">Share Results</span>
+          </div>
         </div>
       </div>
     </div>

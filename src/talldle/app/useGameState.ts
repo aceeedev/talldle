@@ -20,7 +20,7 @@ export type GameState = {
     numGuesses: number;
     isGameOver: boolean;
     trueHeightOrder: Array<number>;
-    celebAdjacency: DefaultDictType<Array<string>>
+    celebAdjacency: DefaultDictType<Array<string>>;
 };
 
 export type Celeb = {
@@ -54,7 +54,8 @@ type DefaultDictType<T> = {
 type UseGameStateReturn = {
     gameState: GameState;
     submitGuess: () => void;
-    setCurrentGuess: (newState: Guess[], sortable: Sortable | null, store: Store) => void
+    setCurrentGuess: (newState: Guess[], sortable: Sortable | null, store: Store) => void;
+    getShareResults: () => string;
 };
 
 
@@ -199,7 +200,10 @@ export function useGameState(): UseGameStateReturn {
 
         // see if game should end
         if (numCorrect == numberCelebs || gameState.numGuesses + 1 >= maxNumGuesses) {
-            setGameState((prev) => ({ ...prev, isGameOver: true }));
+            setGameState((prev) => ({
+                ...prev,
+                isGameOver: true,
+            }));
 
             logScore(gameState.guesses)
         }
@@ -326,5 +330,29 @@ export function useGameState(): UseGameStateReturn {
         })
     };
 
-    return { gameState, submitGuess, setCurrentGuess };
+    const getShareResults = useCallback(() => {
+        let result = '';
+        if (gameState.isGameOver) {
+            let guessStrings = new Array<string>(7).fill('')
+            gameState.guesses.forEach((guess) => {
+                let i = 0;
+                guess.forEach((row) => {
+                    row.celebs.forEach((celeb) => {
+                        if (row.color == GuessColor.Gray) { guessStrings[i] = guessStrings[i] + '⬛' }
+                        if (row.color == GuessColor.Green) { guessStrings[i] = guessStrings[i] + '🟩' }
+                        if (row.color == GuessColor.Yellow) { guessStrings[i] = guessStrings[i] + '🟨' }
+                        i = i + 1
+                    })
+                })
+            })
+            result += `Talldle #${gameState.dayIndex}`
+            guessStrings.forEach((guessString) => {
+                result += '\n' + guessString
+            })
+        }
+        result += '\n\nSort famous people by height!\nPlay Talldle at https://www.talldle.com'
+        return result
+    }, [gameState])
+
+    return { gameState, submitGuess, setCurrentGuess, getShareResults };
 }

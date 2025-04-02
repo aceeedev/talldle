@@ -8,15 +8,17 @@ import { useGameState, maxNumGuesses } from "./useGameState"
 import { HowToPlayCard } from './components/howToPlayCard';
 import { EndGameCard, showEndGameCard} from './components/endGameCard';
 import { CreditsCard } from './components/creditsCard';
+import { CopyAnnouncement } from './components/copyAnnouncement'
 
 export default function Home() {
-  const { gameState, submitGuess, setCurrentGuess } = useGameState();
+  const { gameState, submitGuess, setCurrentGuess, getShareResults } = useGameState();
 
   return (
     <main>
+      <CopyAnnouncement />
       <section className="flex flex-col grow min-h-[100svh]">
         <section>
-          <SiteNavbar gameState={gameState}/>
+          <SiteNavbar gameState={gameState} getShareResults={getShareResults}/>
           <div className="mt-2 sm:mt-4">
             <div className="grid justify-center">
               <div className="flex-1 text-right text-xl sm:text-3xl font-bold">
@@ -60,7 +62,7 @@ export default function Home() {
       {/* invisible cards until active */}
       <HowToPlayCard />
       {gameState.isGameOver &&
-        <EndGameCard trueHeightOrder={gameState.trueHeightOrder}/>
+        <EndGameCard gameState={gameState} getShareResults={getShareResults}/>
       }
       <CreditsCard />
 

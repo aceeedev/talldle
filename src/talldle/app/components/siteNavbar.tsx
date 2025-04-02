@@ -2,14 +2,22 @@ import { useState } from "react";
 import { MenuIcon, InfoIcon, NetworkIcon } from './icons';
 import { showHowToPlayCard } from "./howToPlayCard"
 import { showCreditsCard } from "./creditsCard"
+import { showEndGameCard } from "./endGameCard"
 import { GameState } from '../useGameState'
 import { logShare } from '../firebase'
+import { showCopyAnnouncement } from './copyAnnouncement'
 
-export function SiteNavbar({gameState}: {gameState: GameState}) {
+export function SiteNavbar({gameState, getShareResults}: {gameState: GameState, getShareResults : () => string}) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const shareOnClick = function() {
+    if (gameState.isGameOver) {
+      showEndGameCard();
+    } else {
+      navigator.clipboard?.writeText(getShareResults());
+      showCopyAnnouncement();
+    }
     logShare(gameState.isGameOver);
   };
 
@@ -23,11 +31,10 @@ export function SiteNavbar({gameState}: {gameState: GameState}) {
               {isMenuOpen && (
                 <div className="absolute w-48 bg-black border-2 border-[var(--dark-accent)] rounded-md shadow-lg z-1">
                   <ul className="py-1 text-gray-100">
-                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Share</li>
+                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={shareOnClick}>Share</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Disclaimer</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showCreditsCard}>Credits</li>
                     <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showHowToPlayCard}>How To Play</li>
-                    <li className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={shareOnClick}>Share</li>
                   </ul>
                 </div>
               )}
