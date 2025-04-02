@@ -1,4 +1,4 @@
-import { GameState } from '../useGameState'
+import { GameState, GuessColor, maxNumGuesses } from '../useGameState'
 import { showCopyAnnouncement } from './copyAnnouncement'
 import { logShare } from '../firebase'
 
@@ -31,10 +31,17 @@ export function EndGameCard({ gameState, getShareResults } : { gameState: GameSt
         </div>
 
         <div className="text-neutral-200">
-          <div className="flex justify-center flex-col">
-            <h1 className="text-2xl sm:text-4xl font-bold m-auto">🎉 You Won!! 🎉</h1>
-            <span className="m-auto text-lg sm:text-xl">{gameState.guesses.length == 1 ?  `1 guess` : `${gameState.guesses.length} guesses`}</span>
-          </div>
+          {gameState.guesses.at(-1)?.every((guess) => guess.color === GuessColor.Green) ? (
+            <div className="flex justify-center flex-col">
+              <h1 className="text-2xl sm:text-4xl font-bold m-auto">🎉 Congrats!! 🎉</h1>
+              <span className="m-auto text-lg sm:text-xl">{`${gameState.guesses.length}/${maxNumGuesses} guesses`}</span>
+            </div>
+          ) : (
+            <div className="flex justify-center flex-col">
+              <h1 className="text-2xl sm:text-4xl font-bold m-auto">👏 Game Over. 👏</h1>
+              <span className="m-auto text-lg sm:text-xl">{`X/${maxNumGuesses} guesses`}</span>
+            </div>
+          )}
           <br />
           {gameState.trueHeightOrder.map((height, i) => (
             <div key={i}>

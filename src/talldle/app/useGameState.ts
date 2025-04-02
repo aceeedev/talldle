@@ -345,7 +345,7 @@ export function useGameState(): UseGameStateReturn {
                     })
                 })
             })
-            result += `Talldle #${gameState.dayIndex}`
+            result += `Talldle #${gameState.dayIndex} (${gameState.guesses.at(-1)?.every((guess) => guess.color === GuessColor.Green) ? gameState.guesses.length : 'X'}/${maxNumGuesses})`
             guessStrings.forEach((guessString) => {
                 result += '\n' + guessString
             })
