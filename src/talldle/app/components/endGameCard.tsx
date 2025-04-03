@@ -1,6 +1,7 @@
 import { GameState, GuessColor, maxNumGuesses } from '../useGameState'
 import { showCopyAnnouncement } from './copyAnnouncement'
 import { logShare } from '../firebase'
+import { NetworkIcon } from './icons'
 
 export function hideEndGameCard() {
   document.getElementById("end-game-info")?.classList.remove("visible")
@@ -10,6 +11,17 @@ export function hideEndGameCard() {
 export function showEndGameCard() {
   document.getElementById("end-game-info")?.classList.remove("invisible")
   document.getElementById("end-game-info")?.classList.add("visible")
+}
+
+function cmToFeetInch(cm : number) {
+  let totalInches = cm * 0.393701; // Convert cm to inches
+  let feet = Math.floor(totalInches / 12); // Get whole feet
+  let inches = Math.round(totalInches % 12); // Get remaining inches
+  if (inches == 12) {
+    feet += 1
+    inches = 0
+  }
+  return `${feet}'${inches}"`;
 }
 
 export function EndGameCard({ gameState, getShareResults } : { gameState: GameState, getShareResults: () => string }) {
@@ -44,15 +56,18 @@ export function EndGameCard({ gameState, getShareResults } : { gameState: GameSt
           )}
           <hr className="border-1 my-6" />
           {gameState.trueCelebOrder.map((celeb) => (
-            <div key={celeb.id} className="grid grid-cols-[2fr_auto_1fr] gap-2 sm:gap-8 text-sm sm:text-xl items-center my-0.5 sm:my-1">
+            <div key={celeb.id} className="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-8 text-sm sm:text-xl items-center my-0.5 sm:my-1">
               <div className="flex gap-2 items-center"><img src={celeb.imgUrl} className="w-8 h-8 sm:w-12 sm:h-12 object-cover"/><span>{celeb.name}</span></div>
               <span>:</span>
-              <span>{Math.round(celeb.height*3.2808) / 100}ft ({celeb.height}cm)</span>
+              <span>{cmToFeetInch(celeb.height)} ({celeb.height}cm)</span>
             </div>
           ))}
           <hr className="border-1 my-6" />
           <div className="flex justify-center">
-            <span tabIndex={0} onClick={shareOnClick} onKeyDown={(e) => (e.key === "Enter") && (shareOnClick())} className="text-lg sm:text-xl font-bold py-2 px-4 border-2 text-[var(--talldle-red)] hover:cursor-pointer hover:bg-[var(--talldle-red)] hover:text-black hover:border-[var(--talldle-red)] focus:bg-[var(--talldle-red)] focus:text-black focus:border-[var(--talldle-red)]">Share Results</span>
+            <div tabIndex={0} onClick={shareOnClick} onKeyDown={(e) => (e.key === "Enter") && (shareOnClick())} className="flex items-center gap-2 py-2 px-6 bg-[var(--talldle-red)] text-black hover:cursor-pointer hover:bg-red-500 focus:bg-red-500">
+              <span className="w-8 sm:w-10"><NetworkIcon /></span>
+              <span className="text-xl sm:text-2xl font-bold">Share Results</span>
+            </div>
           </div>
         </div>
       </div>

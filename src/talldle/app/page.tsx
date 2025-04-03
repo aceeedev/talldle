@@ -53,13 +53,13 @@ export default function Home() {
           </div>
         </section>
         <section className="grid justify-center mb-[5vh]">
-          <span tabIndex={0} onClick={() => !gameState.isGameOver ? submitGuess() : showEndGameCard()} onKeyDown={(e) => (e.key === "Enter") && (!gameState.isGameOver ? submitGuess() : showEndGameCard())} className="mg-auto font-bold px-8 sm:px-12 py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer focus:scale-[1.05] hover:scale-[1.05] duration-100">
+          <span tabIndex={0} onClick={() => !gameState.isGameOver ? submitGuess() : showEndGameCard()} onKeyDown={(e) => (e.key === "Enter") && (!gameState.isGameOver ? submitGuess() : showEndGameCard())} className="mg-auto font-bold px-8 sm:px-12 py-2 sm:py-3 text-xl sm:text-2xl bg-[var(--talldle-red)] text-[var(--background)] hover:cursor-pointer focus:bg-red-500 hover:bg-red-500">
             Enter Guess
           </span>
         </section>
       </section>
 
-      {/* invisible cards until active */}
+      {/* invisible cards until active */} 
       <HowToPlayCard />
       {gameState.isGameOver &&
         <EndGameCard gameState={gameState} getShareResults={getShareResults} />
