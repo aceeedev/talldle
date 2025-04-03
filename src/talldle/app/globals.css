@@ -71,6 +71,12 @@ see https://github.com/SortableJS/Sortable/issues/794#issuecomment-200037033 */
   opacity: 0;
 }
 
+/* Keep drag ghost but hide actual element:
+https://github.com/SortableJS/Sortable/issues/663#issuecomment-226147733 */
+/* .sortable-ghost {
+  opacity: 0;
+} */
+
 .tooltip-container:hover .tooltip-active {
   visibility: visible;
 }
