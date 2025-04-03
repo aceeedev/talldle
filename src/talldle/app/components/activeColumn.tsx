@@ -43,7 +43,7 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
             <aside className="tooltip-active tooltip">{item.celebs[0].name}</aside>
           </div>
         ) : (
-          <RowDiv rows={item.celebs.length} key={item.id}>
+          <RowDiv rows={item.celebs.length} isActive={true} key={item.id}>
             {item.celebs.map((celeb) => (
               <div key={celeb.id} className="tooltip-container border-4 sm:border-6 border-yellow-400">
                 <img src={celeb.imgUrl} alt={celeb.name} className="object-cover" />
