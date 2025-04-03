@@ -19,6 +19,7 @@ export type GameState = {
     guesses: Array<Array<Guess>>;
     numGuesses: number;
     isGameOver: boolean;
+    trueCelebOrder: Array<Celeb>;
     trueHeightOrder: Array<number>;
     celebAdjacency: DefaultDictType<Array<string>>;
 };
@@ -104,6 +105,7 @@ export function useGameState(): UseGameStateReturn {
             guesses: [],
             numGuesses: 0,
             isGameOver: false,
+            trueCelebOrder: [],
             trueHeightOrder: [],
             celebAdjacency: defaultDict(() => [] as string[]),
         };
@@ -250,7 +252,7 @@ export function useGameState(): UseGameStateReturn {
                 }));
 
                 // find true height order (for checking guesses), note that order is descending
-                celebs.sort((a, b) => b.height - a.height );
+                let trueCelebOrder: Array<Celeb> = celebs.sort((a, b) => b.height - a.height );
                 let trueHeightOrder: Array<number> = celebs.map((celeb) => celeb.height);
 
                 // find adjacent celebs (for checking guesses)
@@ -276,6 +278,7 @@ export function useGameState(): UseGameStateReturn {
                 setGameState(prev => ({
                     ...prev,
                     currentGuess: startingOrder,
+                    trueCelebOrder: trueCelebOrder,
                     trueHeightOrder: trueHeightOrder,
                     celebAdjacency: celebAdjacency,
                 }));

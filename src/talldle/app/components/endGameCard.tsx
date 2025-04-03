@@ -42,14 +42,15 @@ export function EndGameCard({ gameState, getShareResults } : { gameState: GameSt
               <span className="m-auto text-lg sm:text-xl">{`X/${maxNumGuesses} guesses`}</span>
             </div>
           )}
-          <br />
-          {gameState.trueHeightOrder.map((height, i) => (
-            <div key={i}>
-              <span>{Math.round(height*3.2808) / 100}ft ({height}cm)</span>
-              <br />
+          <hr className="border-1 my-6" />
+          {gameState.trueCelebOrder.map((celeb) => (
+            <div key={celeb.id} className="grid grid-cols-[2fr_auto_1fr] gap-2 sm:gap-8 text-sm sm:text-xl items-center my-0.5 sm:my-1">
+              <div className="flex gap-2 items-center"><img src={celeb.imgUrl} className="w-8 h-8 sm:w-12 sm:h-12 object-cover"/><span>{celeb.name}</span></div>
+              <span>:</span>
+              <span>{Math.round(celeb.height*3.2808) / 100}ft ({celeb.height}cm)</span>
             </div>
           ))}
-          <br />  
+          <hr className="border-1 my-6" />
           <div className="flex justify-center">
             <span tabIndex={0} onClick={shareOnClick} onKeyDown={(e) => (e.key === "Enter") && (shareOnClick())} className="text-lg sm:text-xl font-bold py-2 px-4 border-2 text-[var(--talldle-red)] hover:cursor-pointer hover:bg-[var(--talldle-red)] hover:text-black hover:border-[var(--talldle-red)] focus:bg-[var(--talldle-red)] focus:text-black focus:border-[var(--talldle-red)]">Share Results</span>
           </div>
