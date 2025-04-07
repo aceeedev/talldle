@@ -1,8 +1,9 @@
 'use client';
 
-import { initializeApp, FirebaseApp } from 'firebase/app'
-import { getAnalytics, logEvent, Analytics, AnalyticsCallOptions } from 'firebase/analytics'
-import { Guess } from "./useGameState"
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getAnalytics, logEvent, Analytics, AnalyticsCallOptions } from 'firebase/analytics';
+import { getFirestore, doc, getDoc, Firestore } from 'firebase/firestore';
+import { Guess, Celeb } from "./useGameState";
 
 
 const allowLogs: boolean = true;
@@ -18,31 +19,46 @@ const firebaseConfig = {
 };
 
 
-let app: FirebaseApp | undefined
-let analytics: Analytics | undefined
+let app: FirebaseApp | undefined;
+let analytics: Analytics | undefined;
+let db: Firestore | undefined;
 
 // initialize Firebase
 if (typeof window !== 'undefined') {
-  app = initializeApp(firebaseConfig)
-  analytics = getAnalytics(app)
+  app = initializeApp(firebaseConfig);
+
+  analytics = getAnalytics(app);
+  db = getFirestore(app);
 }
 
 // functions for helping logs
 const log = function(eventName: string, eventParams?: {[key: string]: any;}, options?: AnalyticsCallOptions) {
   // make sure we were able to connect to the firebase project
   if (allowLogs && analytics !== undefined) {
-    logEvent(analytics, eventName, {...eventParams, is_prod: process.env.NODE_ENV === 'production'}, options)
+    logEvent(analytics, eventName, {...eventParams, is_prod: process.env.NODE_ENV === 'production'}, options);
   }
 };
 
 // functions for specific logs
 const logScore = function(guesses: Array<Array<Guess>>) {
-  log("game_over", {guesses: JSON.stringify(guesses)})
+  log("game_over", {guesses: JSON.stringify(guesses)});
 };
 
 const logShare = function(gameOver: boolean) {
-  log("share", {is_game_over: gameOver})
+  log("share", {is_game_over: gameOver});
 };
 
+const getDailyCelebs = async function(dayIndex: number) {
+  const todaysCelebIds: string[] = (await getDoc(doc(db!, 'order', dayIndex.toString()))).data()!['data'] as string[];
 
-export { logScore, logShare }
+  const todaysCelebs: Celeb[] = await Promise.all(
+    todaysCelebIds.map(async (celebId) => {
+      const docSnap = await getDoc(doc(db!, 'data', celebId));
+      return docSnap.data() as Celeb;
+    })
+  );
+
+  return todaysCelebs;
+};
+
+export { logScore, logShare, getDailyCelebs }

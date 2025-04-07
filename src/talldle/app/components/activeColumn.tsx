@@ -39,14 +39,14 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
       {order?.length > 0 ? (
         order.map((item) => ( item.color == GuessColor.Gray || item.color == GuessColor.Green ? (
           <div key={item.id} className={`${item.color == GuessColor.Green ? 'no-drag border-green-400' : 'border-neutral-600'} row-span-1 tooltip-container border-4 sm:border-6 overflow-clip hover:cursor-pointer column-glow`}>
-            <img src={item.celebs[0].imgUrl} alt={item.celebs[0].name} className="object-cover" />
+            <img src={item.celebs[0].image} alt={item.celebs[0].name} className="object-cover" />
             <aside className="tooltip-active tooltip">{item.celebs[0].name}</aside>
           </div>
         ) : (
           <RowDiv rows={item.celebs.length} isActive={true} key={item.id}>
             {item.celebs.map((celeb) => (
               <div key={celeb.id} className="tooltip-container border-4 sm:border-6 border-yellow-400">
-                <img src={celeb.imgUrl} alt={celeb.name} className="object-cover" />
+                <img src={celeb.image} alt={celeb.name} className="object-cover" />
                 <aside className="tooltip-active tooltip">{celeb.name}</aside>
               </div>
             ))}

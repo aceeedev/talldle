@@ -3,13 +3,14 @@
 import { useState, useEffect, useCallback } from "react";
 import Papa, { ParseResult } from "papaparse"
 import { Sortable, Store } from "react-sortablejs";
-import { logScore } from './firebase'
+import { logScore, getDailyCelebs } from './firebase'
 
 // Constants:
 const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
 
 export const maxNumGuesses: number = 6;
 const numberCelebs: number = 7;
+const totalCelebs: number = 3000;
 
 
 // Interfaces:
@@ -28,7 +29,7 @@ export type Celeb = {
     id: string,
     name: string,
     height: number,
-    imgUrl: string,
+    image: string,
     category: string,
     source: string
 };
@@ -80,20 +81,6 @@ function defaultDict<T>(factory: () => T): DefaultDictType<T> {
       dict
     };
   }
-
-function getRandomElements<T>(arr: T[], count: number, seed: number): T[] {
-    const random = seededRandom(seed);
-    const result: T[] = [];
-    const available = [...arr];
-
-    for (let i = 0; i < count && available.length > 0; i++) {
-        const index = Math.floor(random() * available.length);
-        result.push(available[index]);
-        available.splice(index, 1);
-    }
-
-    return result;
-}
 
 
 // The Actual Game's Hook:
@@ -230,15 +217,13 @@ export function useGameState(): UseGameStateReturn {
     useEffect(() => {
         const fetchCelebs = async () => {
             try {
-                let celebs = await getDailyCelebs();
+                // find date index
+                const diffTime = Math.abs((new Date()).getTime() - dayZero.getTime());
+                const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
 
-                // make sure the order by default isnt sorted
-                // let i = 0;
-                // while (!checkCorrectOrder(celebs)) {
-                //     celebs = getRandomElements(celebs, celebs.length, i);
+                const dayIndex = diffDays;
 
-                //     i++;
-                // }
+                let celebs = await getDailyCelebs(dayIndex % totalCelebs);
 
                 // make the initial celebs order alphabetical
                 celebs.sort((a, b) => a.name.localeCompare(b.name));
@@ -290,48 +275,6 @@ export function useGameState(): UseGameStateReturn {
         fetchCelebs();
 
     }, []);
-
-
-    const checkCorrectOrder = (celebsToCheck: Celeb[]): boolean => {
-        for (let i = 1; i < celebsToCheck.length; i++) {
-            if (celebsToCheck[i - 1] > celebsToCheck[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    const getDailyCelebs = async (): Promise<Celeb[]> => {
-        // parse csv
-        return new Promise((resolve, reject) => {
-            Papa.parse<Celeb>('/data.csv', {
-                header: true,
-                download: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                delimiter: ",",
-                complete: (results: ParseResult<Celeb>) => {
-                    // now that we have all the data in the csv, pick today's selection
-
-                    // find date index
-                    const diffTime = Math.abs((new Date()).getTime() - dayZero.getTime());
-                    const diffDays = Math.floor(diffTime / (1000 * 3600 * 24));
-
-                    const dayIndex = diffDays;
-                    const selectedCelebs = getRandomElements(results.data, numberCelebs, dayIndex);
-
-                    setGameState(prev => ({
-                        ...prev,
-                        dayIndex: dayIndex,
-                    }));
-                
-                    resolve(selectedCelebs);                    
-                },
-                error: (error) => reject(error),
-            })
-        })
-    };
 
     const getShareResults = useCallback(() => {
         let result = '';
