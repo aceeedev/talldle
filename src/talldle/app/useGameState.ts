@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from "react";
-import Papa, { ParseResult } from "papaparse"
 import { Sortable, Store } from "react-sortablejs";
 import { logScore, getDailyCelebs } from './firebase'
 
@@ -262,6 +261,7 @@ export function useGameState(): UseGameStateReturn {
                 
                 setGameState(prev => ({
                     ...prev,
+                    dayIndex: dayIndex,
                     currentGuess: startingOrder,
                     trueCelebOrder: trueCelebOrder,
                     trueHeightOrder: trueHeightOrder,

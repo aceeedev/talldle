@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "firebase": "^11.6.0",
-    "next": "15.2.2",
-    "papaparse": "^5.5.2",
+    "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-sortablejs": "^6.1.4"
