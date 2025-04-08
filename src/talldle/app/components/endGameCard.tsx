@@ -57,7 +57,7 @@ export function EndGameCard({ gameState, getShareResults } : { gameState: GameSt
           <hr className="border-1 my-6" />
           {gameState.trueCelebOrder.map((celeb) => (
             <div key={celeb.id} className="grid grid-cols-[1fr_auto_1fr] gap-2 sm:gap-8 text-sm sm:text-xl items-center my-0.5 sm:my-1">
-              <div className="flex gap-2 items-center"><img src={celeb.image} className="w-8 h-8 sm:w-12 sm:h-12 object-cover aspect-square"/><span>{celeb.name}</span></div>
+              <div className="flex gap-2 items-center"><img src={celeb.image} className="w-8 h-8 sm:w-12 sm:h-12 object-cover aspect-square object-top"/><span>{celeb.name}</span></div>
               <span>:</span>
               <span>{cmToFeetInch(celeb.height)} ({celeb.height}cm)</span>
             </div>
