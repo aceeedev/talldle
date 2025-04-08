@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Viewer</title>
+    <style>
+        body { text-align: center; font-family: sans-serif; margin: 2em; background: rgb(37, 37, 37); color: lightgray}
+        img { width: 150px; aspect-ratio: 1 / 1; object-fit: cover; object-position: top;}
+        .nav { margin-top: 1em; }
+        button { padding: 0.5em 1em; font-size: 16px; background: gray}
+    </style>
+</head>
+<body>
+    <h2>Image {{ index + 1 }} / {{ total }}</h2>
+    <h3>{{ name }} ({{ height }}cm)</h3>
+    <img src="{{ image_url }}" alt="Image {{ index + 1 }}">
+    <div class="nav">
+        {% if index > 0 %}
+            <a href="{{ url_for('index', i=index-1) }}"><button>⬅️ Prev</button></a>
+        {% endif %}
+        {% if index < total - 1 %}
+            <a href="{{ url_for('index', i=index+1) }}"><button>Next ➡️</button></a>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && {{ index }} > 0) {
+                window.location = "{{ url_for('index', i=index-1) }}";
+            }
+            if (e.key === 'ArrowRight' && {{ index }} < {{ total - 1 }}) {
+                window.location = "{{ url_for('index', i=index+1) }}";
+            }
+        });
+    </script>
+</body>
+</html>
+
