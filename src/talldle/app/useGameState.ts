@@ -198,7 +198,7 @@ export function useGameState(): UseGameStateReturn {
 
     }, [gameState]);
 
-    const setCurrentGuess = useCallback((newState: Guess[], _sortable: Sortable | null, _store: Store) => {
+    const setCurrentGuess = useCallback((newState: Guess[]) => {
         setGameState(prev => ({
             ...prev,
             currentGuess: newState,
@@ -221,7 +221,7 @@ export function useGameState(): UseGameStateReturn {
                 celebs.sort((a, b) => a.name.localeCompare(b.name));
 
                 // create initial guess order from select celebs
-                let startingOrder: Array<Guess> = celebs.map((celeb, index) => ({
+                const startingOrder: Array<Guess> = celebs.map((celeb, index) => ({
                     id: index,
                     celebs: [celeb],
                     color: GuessColor.Gray,
@@ -276,7 +276,7 @@ export function useGameState(): UseGameStateReturn {
             gameState.guesses.forEach((guess) => {
                 let i = 0;
                 guess.forEach((row) => {
-                    row.celebs.forEach((_celeb) => {
+                    row.celebs.forEach(() => {
                         if (row.color == GuessColor.Gray) { guessStrings[i] = guessStrings[i] + '⬛' }
                         if (row.color == GuessColor.Green) { guessStrings[i] = guessStrings[i] + '🟩' }
                         if (row.color == GuessColor.Yellow) { guessStrings[i] = guessStrings[i] + '🟨' }
