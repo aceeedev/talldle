@@ -32,7 +32,7 @@ if (typeof window !== 'undefined') {
 }
 
 // functions for helping logs
-const log = function(eventName: string, eventParams?: {[key: string]: any;}, options?: AnalyticsCallOptions) {
+const log = function(eventName: string, eventParams?: {[key: string]: string | number | boolean;}, options?: AnalyticsCallOptions) {
   // make sure we were able to connect to the firebase project
   if (allowLogs && analytics !== undefined) {
     logEvent(analytics, eventName, {...eventParams, is_prod: process.env.NODE_ENV === 'production'}, options);

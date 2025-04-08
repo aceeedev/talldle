@@ -61,13 +61,6 @@ type UseGameStateReturn = {
 
 
 // Helper Functions:
-function seededRandom(seed: number): () => number {
-    return function () {
-        seed = (seed * 9301 + 49297) % 233280;
-        return seed / 233280;
-    };
-}
-
 function defaultDict<T>(factory: () => T): DefaultDictType<T> {
     const dict: Record<string, T> = {};
     return {
@@ -205,7 +198,7 @@ export function useGameState(): UseGameStateReturn {
 
     }, [gameState]);
 
-    const setCurrentGuess = useCallback((newState: Guess[], sortable: Sortable | null, store: Store) => {
+    const setCurrentGuess = useCallback((newState: Guess[], _sortable: Sortable | null, _store: Store) => {
         setGameState(prev => ({
             ...prev,
             currentGuess: newState,
@@ -222,7 +215,7 @@ export function useGameState(): UseGameStateReturn {
 
                 const dayIndex = diffDays;
 
-                let celebs = await getDailyCelebs(dayIndex % totalCelebs);
+                const celebs = await getDailyCelebs(dayIndex % totalCelebs);
 
                 // make the initial celebs order alphabetical
                 celebs.sort((a, b) => a.name.localeCompare(b.name));
@@ -236,8 +229,8 @@ export function useGameState(): UseGameStateReturn {
                 }));
 
                 // find true height order (for checking guesses), note that order is descending
-                let trueCelebOrder: Array<Celeb> = celebs.sort((a, b) => b.height - a.height );
-                let trueHeightOrder: Array<number> = celebs.map((celeb) => celeb.height);
+                const trueCelebOrder: Array<Celeb> = celebs.sort((a, b) => b.height - a.height );
+                const trueHeightOrder: Array<number> = celebs.map((celeb) => celeb.height);
 
                 // find adjacent celebs (for checking guesses)
                 const celebAdjacency = defaultDict(() => [] as string[]); // a map from celeb ID (string) to array of adjacent celeb IDs (strings)
@@ -279,11 +272,11 @@ export function useGameState(): UseGameStateReturn {
     const getShareResults = useCallback(() => {
         let result = '';
         if (gameState.isGameOver) {
-            let guessStrings = new Array<string>(7).fill('')
+            const guessStrings = new Array<string>(7).fill('')
             gameState.guesses.forEach((guess) => {
                 let i = 0;
                 guess.forEach((row) => {
-                    row.celebs.forEach((celeb) => {
+                    row.celebs.forEach((_celeb) => {
                         if (row.color == GuessColor.Gray) { guessStrings[i] = guessStrings[i] + '⬛' }
                         if (row.color == GuessColor.Green) { guessStrings[i] = guessStrings[i] + '🟩' }
                         if (row.color == GuessColor.Yellow) { guessStrings[i] = guessStrings[i] + '🟨' }

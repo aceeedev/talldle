@@ -14,7 +14,7 @@ export function showEndGameCard() {
 }
 
 function cmToFeetInch(cm : number) {
-  let totalInches = cm * 0.393701; // Convert cm to inches
+  const totalInches = cm * 0.393701; // Convert cm to inches
   let feet = Math.floor(totalInches / 12); // Get whole feet
   let inches = Math.round(totalInches % 12); // Get remaining inches
   if (inches == 12) {
