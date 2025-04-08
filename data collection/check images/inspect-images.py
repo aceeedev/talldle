@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 
 # --- CONFIG ---
-CSV_PATH = "./data/final_data.csv"
+CSV_PATH = "data collection/data/final_data.csv"
 IMAGE_COLUMN = "Image"
 NAME_COLUMN = "Name"
 HEIGHT_COLUMN = "Height"
