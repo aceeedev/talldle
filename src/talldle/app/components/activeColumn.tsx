@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { Sortable, Store, ReactSortable } from "react-sortablejs";
 import { Guess, GuessColor } from "./../useGameState"
 import { RowDiv } from "./rowDiv";
@@ -24,6 +25,13 @@ function removeTooltips() {
 }
 
 export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, setCurrentGuess: (newState: Guess[], sortable: Sortable | null, store: Store) => void }) {  
+  
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+
+  const handleImageLoad = (src: string) => {
+    setLoadedImages((prev) => new Set(prev).add(src));
+  };
+  
   return (
     <ReactSortable
       animation={100}
@@ -39,7 +47,7 @@ export function ActiveColumn({ order, setCurrentGuess }: { order: Array<Guess>, 
       {order?.length > 0 ? (
         order.map((item) => ( item.color == GuessColor.Gray || item.color == GuessColor.Green ? (
           <div key={item.id} className={`${item.color == GuessColor.Green ? 'no-drag border-green-400' : 'border-neutral-600'} row-span-1 tooltip-container border-4 sm:border-6 overflow-clip hover:cursor-pointer bg-neutral-600 column-glow`}>
-            <img src={item.celebs[0].image} alt={item.celebs[0].name} className="object-cover aspect-square object-top" />
+            <img src={item.celebs[0].image} alt={item.celebs[0].name} onLoad={() => handleImageLoad(item.celebs[0].image)}  className={`object-cover aspect-square object-top transition-opacity duration-300 ${loadedImages.has(item.celebs[0].image) ? "opacity-100" : "opacity-0"}`} />
             <aside className="tooltip-active tooltip">{item.celebs[0].name}</aside>
           </div>
         ) : (
