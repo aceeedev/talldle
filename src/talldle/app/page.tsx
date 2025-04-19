@@ -8,6 +8,7 @@ import { useGameState, maxNumGuesses } from "./useGameState"
 import { HowToPlayCard } from './components/howToPlayCard';
 import { EndGameCard, showEndGameCard} from './components/endGameCard';
 import { CreditsCard } from './components/creditsCard';
+import { DisclaimerCard } from './components/disclaimerCard';
 import { CopyAnnouncement } from './components/copyAnnouncement'
 
 export default function Home() {
@@ -69,6 +70,7 @@ export default function Home() {
         <EndGameCard gameState={gameState} getShareResults={getShareResults} />
       }
       <CreditsCard />
+      <DisclaimerCard />
 
     </main>
   )

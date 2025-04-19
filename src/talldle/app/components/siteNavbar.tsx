@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { MenuIcon, InfoIcon, NetworkIcon } from './icons';
-import { showHowToPlayCard } from "./howToPlayCard"
-import { showCreditsCard } from "./creditsCard"
-import { showEndGameCard } from "./endGameCard"
-import { GameState } from '../useGameState'
-import { logShare } from '../firebase'
-import { showCopyAnnouncement } from './copyAnnouncement'
+import { showHowToPlayCard } from "./howToPlayCard";
+import { showCreditsCard } from "./creditsCard";
+import { showEndGameCard } from "./endGameCard";
+import { GameState } from '../useGameState';
+import { logShare } from '../firebase';
+import { showCopyAnnouncement } from './copyAnnouncement';
+import { showDisclaimerCard } from './disclaimerCard';
 
 export function SiteNavbar({gameState, getShareResults}: {gameState: GameState, getShareResults : () => string}) {
 
@@ -32,7 +33,7 @@ export function SiteNavbar({gameState, getShareResults}: {gameState: GameState, 
                 <div className="absolute w-48 bg-black border-2 border-[var(--dark-accent)] rounded-md shadow-lg z-1">
                   <ul className="py-1 text-gray-100">
                     <li tabIndex={0} className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={shareOnClick} onKeyDown={(e) => (e.key === "Enter") && (shareOnClick())}>Share</li>
-                    <li tabIndex={0} className="px-4 py-2 hover:bg-neutral-800 cursor-pointer">Disclaimer</li>
+                    <li tabIndex={0} className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showDisclaimerCard} onKeyDown={(e) => (e.key === "Enter") && (showDisclaimerCard())}>Disclaimer</li>
                     <li tabIndex={0} className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showCreditsCard} onKeyDown={(e) => (e.key === "Enter") && (showCreditsCard())}>Credits</li>
                     <li tabIndex={0} className="px-4 py-2 hover:bg-neutral-800 cursor-pointer" onClick={showHowToPlayCard} onKeyDown={(e) => (e.key === "Enter") && (showHowToPlayCard())}>How To Play</li>
                   </ul>
