@@ -5,7 +5,7 @@ import { Sortable, Store } from "react-sortablejs";
 import { logScore, getDailyCelebs } from './firebase'
 
 // Constants:
-const dayZero: Date = new Date(2025, 2, 16); // month needs to be off by one? or maybe Im just dumb
+const dayZero: Date = new Date(2025, 3, 19); // month needs to be off by one? or maybe Im just dumb
 
 export const maxNumGuesses: number = 6;
 const numberCelebs: number = 7;
@@ -79,7 +79,7 @@ function defaultDict<T>(factory: () => T): DefaultDictType<T> {
 export function useGameState(): UseGameStateReturn {
     const [gameState, setGameState] = useState<GameState>(() => {
         return {
-            dayIndex: 0,
+            dayIndex: -1,
             currentGuess: [],
             guesses: [],
             numGuesses: 0,
