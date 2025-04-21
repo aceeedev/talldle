@@ -22,7 +22,7 @@ export function CreditsCard() {
         <div className="text-neutral-200">
           <h1 className="text-2xl sm:text-4xl font-bold underline">Credits</h1>
           <br />
-          <p>Inspired by <i>Wordle</i>, created by Josh Wardle, <i>Talldle</i> is made by <b>Andrew Collins</b> and <b>Riley Wong</b>.</p>
+          <p>Inspired by <i>Wordle</i>, created by Josh Wardle, <i>Talldle</i> is made by <b>Andrew Collins (180cm)</b> and <b>Riley Wong (170cm)</b>.</p>
           <br />
           <p>
             Contact us at <a href="mailto:acollins2@scu.edu" className="underline">acollins2@scu.edu</a> and <a href="mailto:rnwong@scu.edu" className="underline">rnwong@scu.edu</a> for any questions.
