@@ -34,7 +34,7 @@ export default function Home() {
         </section>
         <section className="flex-1 flex flex-col justify-center">
           <div className="my-2">
-            <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Tallest</span></div>
+            <div className="grid justify-center"><span className="mg-auto text-sm sm:text-lg text-neutral-500">Tallest</span></div>
             <div>
               <div className="grid grid-cols-6 justify-center m-auto gap-1 sm:gap-2 w-[98vw] max-w-xl">
                 {/* display a history for every past guess */}
@@ -54,7 +54,7 @@ export default function Home() {
                 }
               </div>
             </div>
-            <div className="grid justify-center"><span className="mg-auto text-xs sm:text-base text-[var(--light-accent)]">Shortest</span></div>
+            <div className="grid justify-center"><span className="mg-auto text-sm sm:text-lg text-neutral-500">Shortest</span></div>
           </div>
         </section>
         <section className="grid justify-center mb-[5vh]">
