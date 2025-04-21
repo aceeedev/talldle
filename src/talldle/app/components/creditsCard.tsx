@@ -29,6 +29,8 @@ export function CreditsCard() {
           </p>
           <br />
           <p>Thanks for playing!</p>
+          <br/>
+          <p>Special thanks to all beta testers!</p>
         </div>
       </div>
     </div>
