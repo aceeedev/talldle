@@ -191,7 +191,7 @@ export function useGameState(): UseGameStateReturn {
 
         setGameState(prev => ({
             ...prev,
-            currentGuess: guessToAdd,
+            // currentGuess: guessToAdd,
             guesses: [...prev.guesses, guessToAdd],
             numGuesses: prev.numGuesses + 1
         }));
