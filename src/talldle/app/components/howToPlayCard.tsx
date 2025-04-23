@@ -25,7 +25,9 @@ export function HowToPlayCard() {
           <h1 className="text-2xl sm:text-4xl font-bold underline">How to Play</h1>
           <h2 className="text-lg">Sort the famous people by height with {maxNumGuesses} attempts.</h2>
           <br />
-          <p>Color scheme:</p>
+          <p>Drag and place the tiles in the current column to sort the people.</p>
+          <br />
+          <h2 className="text-lg">Color scheme:</h2>
           <ul className="list-disc list-inside">
             <li><span className="text-green-300 underline font-bold">Green</span> = correct placement.</li>
             <li><span className="text-yellow-300 underline font-bold">Yellow</span> = correct order but incorrect placement.</li>
