@@ -186,7 +186,7 @@ export function useGameState(): UseGameStateReturn {
                 isGameOver: true,
             }));
 
-            logScore(gameState.guesses)
+            logScore(gameState.guesses, numCorrect == numberCelebs)
         }
 
         setGameState(prev => ({

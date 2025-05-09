@@ -40,8 +40,8 @@ const log = function(eventName: string, eventParams?: {[key: string]: string | n
 };
 
 // functions for specific logs
-const logScore = function(guesses: Array<Array<Guess>>) {
-  log("game_over", {guesses: JSON.stringify(guesses)});
+const logScore = function(guesses: Array<Array<Guess>>, has_won_flag: boolean) {
+  log("game_over", {guesses: JSON.stringify(guesses), has_won: has_won_flag});
 };
 
 const logShare = function(gameOver: boolean) {
