@@ -7,9 +7,38 @@
         img { width: 150px; aspect-ratio: 1 / 1; object-fit: cover; object-position: top;}
         .nav { margin-top: 1em; }
         button { padding: 0.5em 1em; font-size: 16px; background: gray}
+        .view-toggle { 
+            margin-bottom: 2em; 
+            text-align: center;
+        }
+        .view-toggle a { 
+            display: inline-block; 
+            padding: 0.5em 1em; 
+            margin: 0 0.5em; 
+            text-decoration: none; 
+            color: lightgray; 
+            border: 2px solid gray; 
+            border-radius: 4px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .view-toggle a.active { 
+            background: gray; 
+            color: rgb(37, 37, 37);
+        }
+        .view-toggle a:hover { 
+            background: rgb(60, 60, 60);
+        }
+        .view-toggle a.active:hover {
+            background: rgb(100, 100, 100);
+        }
     </style>
 </head>
 <body>
+    <div class="view-toggle">
+        <a href="{{ url_for('grid') }}">Grid</a>
+        <a href="{{ url_for('index', i=index) }}" class="active">Single</a>
+    </div>
+
     <h2>Image {{ index + 1 }} / {{ total }}</h2>
     <h3>{{ name }} ({{ height }}cm)</h3>
     <img src="{{ image_url }}" alt="Image {{ index + 1 }}">
