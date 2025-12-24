@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Viewer - Grid</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; background: rgb(37, 37, 37); color: lightgray}
+        img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: top;}
+        .view-toggle { margin-bottom: 2em; text-align: center; }
+        .view-toggle a { 
+            display: inline-block; 
+            padding: 0.5em 1em; 
+            margin: 0 0.5em; 
+            text-decoration: none; 
+            color: lightgray; 
+            border: 2px solid gray; 
+            border-radius: 4px;
+        }
+        .view-toggle a.active { 
+            background: gray; 
+            color: rgb(37, 37, 37);
+        }
+        .view-toggle a:hover { 
+            background: rgb(60, 60, 60);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1em;
+            margin-bottom: 2em;
+        }
+        .grid-item {
+            cursor: pointer;
+            border: 2px solid gray;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .grid-item:hover {
+            transform: scale(1.05);
+            border-color: lightgray;
+        }
+        .grid-item-info {
+            padding: 0.5em;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 2em;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 0.5em 1em;
+            margin: 0 0.25em;
+            text-decoration: none;
+            color: lightgray;
+            border: 2px solid gray;
+            border-radius: 4px;
+        }
+        .pagination a:hover {
+            background: rgb(60, 60, 60);
+        }
+        .pagination .current {
+            background: gray;
+            color: rgb(37, 37, 37);
+        }
+    </style>
+</head>
+<body>
+    <div class="view-toggle">
+        <a href="{{ url_for('grid', page=current_page) }}" class="active">Grid</a>
+        <a href="{{ url_for('index', i=0) }}">Single</a>
+    </div>
+    
+    <h2 style="text-align: center;">Grid View - Page {{ current_page + 1 }} / {{ total_pages }}</h2>
+    
+    <div class="grid-container">
+        {% for item in images_data %}
+        <div class="grid-item" onclick="window.location='{{ url_for('index', i=item.index) }}'">
+            <img src="{{ item.image_url }}" alt="{{ item.name }}">
+            <div class="grid-item-info">
+                <div>{{ item.name }}</div>
+                <div style="font-size: 0.8em; color: rgb(150, 150, 150);">{{ item.height }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="pagination">
+        {% if current_page > 0 %}
+            <a href="{{ url_for('grid', page=current_page-1) }}">⬅️ Prev</a>
+        {% endif %}
+        
+        {% for p in range(total_pages) %}
+            {% if p == current_page %}
+                <span class="current">{{ p + 1 }}</span>
+            {% elif p < 3 or p > total_pages - 4 or (p >= current_page - 1 and p <= current_page + 1) %}
+                <a href="{{ url_for('grid', page=p) }}">{{ p + 1 }}</a>
+            {% elif p == 3 or p == total_pages - 4 %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+        
+        {% if current_page < total_pages - 1 %}
+            <a href="{{ url_for('grid', page=current_page+1) }}">Next ➡️</a>
+        {% endif %}
+    </div>
+</body>
+</html>
+
