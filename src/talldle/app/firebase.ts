@@ -54,7 +54,10 @@ const getDailyCelebs = async function(dayIndex: number) {
   const todaysCelebs: Celeb[] = await Promise.all(
     todaysCelebIds.map(async (celebId) => {
       const docSnap = await getDoc(doc(db!, 'data', celebId));
-      return docSnap.data() as Celeb;
+      const celeb = docSnap.data() as Celeb;
+      // Use public images instead of Firebase image URLs
+      celeb.image = `/images/${celebId}.png`;
+      return celeb;
     })
   );
 
